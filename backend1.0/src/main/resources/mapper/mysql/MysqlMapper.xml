@@ -8,4 +8,5 @@
         FROM user
         WHERE USER_EMAIL=#{email}
     </select>
+
 </mapper>
