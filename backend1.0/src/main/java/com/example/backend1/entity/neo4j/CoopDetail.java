@@ -34,4 +34,5 @@ public class CoopDetail {
     public void setCount(int count) {
         this.count = count;
     }
+
 }
