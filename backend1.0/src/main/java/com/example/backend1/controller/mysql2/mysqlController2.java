@@ -1,7 +1,7 @@
-package com.example.backend1.controller.mysql;
+package com.example.backend1.controller.mysql2;
 
 import com.example.backend1.entity.mysql.*;
-import com.example.backend1.mapper.mysql.MysqlMapper;
+import com.example.backend1.mapper.mysql2.MysqlMapper2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,12 +9,13 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-public class mysqlController {
+public class mysqlController2 {
     @Autowired
-    MysqlMapper mysqlMapper;
+    MysqlMapper2 mysqlMapper;
+
 
     //Search for movies by the year released
-    @RequestMapping(value = "/getMoviesByYearFromD1", method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesByYearFromD2", method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByYear(String year){
         year="2014";
@@ -26,7 +27,7 @@ public class mysqlController {
     }
 
     //Search for the num of movies released by a certain year
-    @RequestMapping(value = "/getMoviesNumByYearFromD1", method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesNumByYearFromD2", method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesNumByYear(String year){
         year="2014";
@@ -37,7 +38,7 @@ public class mysqlController {
     }
 
     //Search for movies by a certain month of a certain year
-    @RequestMapping(value = "/getMoviesByYMFromD1", method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesByYMFromD2", method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByYM(String year, String month){
         year="2014";
@@ -49,7 +50,7 @@ public class mysqlController {
     }
 
     //Search for the num of movies released in a certain month of a certain year
-    @RequestMapping(value = "/getMoviesNumByYMFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesNumByYMFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesNumByYM(String year,String month){
         year="2014";
@@ -61,7 +62,7 @@ public class mysqlController {
     }
 
     //Search for movies by a certain quarter in a certain year
-    @RequestMapping(value = "/getMoviesByYQFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesByYQFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByYQ(String year, String quarter){
         year="2014";
@@ -73,7 +74,7 @@ public class mysqlController {
     }
 
     //Search movies by the first few words of title
-    @RequestMapping(value = "/getMoviesByTitleFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesByTitleFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByTitle(String title){
         title="Harry Potter";
@@ -84,7 +85,7 @@ public class mysqlController {
     }
 
     //Search for movie by full title
-    @RequestMapping(value = "/getMovieByTitleFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getMovieByTitleFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMovieByTitle(String title){
         title="Harry Potter";
@@ -94,7 +95,7 @@ public class mysqlController {
         return new Helper(movieDetailList,millsecs);
     }
 
-    @RequestMapping(value = "/getMoviesByDirectorFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesByDirectorFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByDirector(String name){
         name = "John huston";
@@ -104,7 +105,7 @@ public class mysqlController {
         return new Helper(movieDetails,millsecs);
     }
 
-    @RequestMapping(value = "/getMoviesByWriterFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesByWriterFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByWriter(String name){
         name = "Ethan Coen";
@@ -114,7 +115,7 @@ public class mysqlController {
         return new Helper(movieDetails,millsecs);
     }
 
-    @RequestMapping(value = "/getMoviesByActorFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesByActorFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByActor(String name){
         name = "Oliver Hardy";
@@ -124,7 +125,7 @@ public class mysqlController {
         return new Helper(movieDetails,millsecs);
     }
 
-    @RequestMapping(value = "/getMoviesLeadingByActorFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesLeadingByActorFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesLeadingByActor(String name){
         name = "Morgan Freeman";
@@ -135,7 +136,7 @@ public class mysqlController {
     }
 
     //Search for the top 20 groups of actors and actresses that worked together the most
-    @RequestMapping(value = "/getCoopAATopFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getCoopAATopFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getCoopAATop(){
         long startTime = System.nanoTime();
@@ -144,7 +145,7 @@ public class mysqlController {
         return new Helper(coopAAList,millsecs);
     }
 
-    @RequestMapping(value = "/getCoopADTopFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getCoopADTopFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getCoopADTop(){
         long startTime = System.nanoTime();
@@ -153,7 +154,7 @@ public class mysqlController {
         return new Helper(coopADList,millsecs);
     }
 
-    @RequestMapping(value = "/getCoopAWTopFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getCoopAWTopFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getCoopAWTop(){
         long startTime = System.nanoTime();
@@ -162,7 +163,7 @@ public class mysqlController {
         return new Helper(coopAWList,millsecs);
     }
 
-    @RequestMapping(value = "/getCoopDWTopFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getCoopDWTopFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getCoopDWTop(){
         long startTime = System.nanoTime();
@@ -171,7 +172,7 @@ public class mysqlController {
         return new Helper(coopDWList,millsecs);
     }
 
-    @RequestMapping(value = "/getCoopADByActorFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getCoopADByActorFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getCoopADByActor(String actor){
         actor = "Todd Haberkorn";
@@ -181,7 +182,7 @@ public class mysqlController {
         return new Helper(coopADList,millsecs);
     }
 
-    @RequestMapping(value = "/getCoopAAByActorFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getCoopAAByActorFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getCoopAAByActor(String actor){
         actor = "Todd Haberkorn";
@@ -191,7 +192,7 @@ public class mysqlController {
         return new Helper(coopAAList,millsecs);
     }
 
-    @RequestMapping(value = "/getMoviesByGenresFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesByGenresFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByGenres(String genres){
         genres = "Action";
@@ -201,7 +202,7 @@ public class mysqlController {
         return new Helper(movieDetails,millsecs);
     }
 
-    @RequestMapping(value = "/getGenresRankingFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getGenresRankingFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getGenresRanking(){
         long startTime = System.nanoTime();
@@ -210,7 +211,7 @@ public class mysqlController {
         return new Helper(genresList,millsecs);
     }
 
-    @RequestMapping(value = "/getMoviesByScoreFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesByScoreFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByScore(Integer score){
         score = 4;
@@ -220,7 +221,7 @@ public class mysqlController {
         return new Helper(movies,millsecs);
     }
 
-    @RequestMapping(value = "/getMoviesByReviewNumFromD1",method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesByReviewNumFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByReviewNum(){
         long startTime = System.nanoTime();
@@ -228,6 +229,5 @@ public class mysqlController {
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(moives,millsecs);
     }
-
 
 }

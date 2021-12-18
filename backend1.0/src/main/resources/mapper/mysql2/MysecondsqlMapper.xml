@@ -52,7 +52,6 @@
         FROM movie
         WHERE title = #{title}
     </select>
-
     <select id="getMoviesByDirector" resultType="com.example.backend1.entity.mysql.MovieDetail">
         SELECT
             movie_id,
@@ -61,7 +60,6 @@
             releasedate
         FROM
             movie
-                NATURAL JOIN movie_director
                 NATURAL JOIN director
         WHERE
             director_name = #{directorName}
@@ -73,8 +71,7 @@
             runtime,
             releasedate
         FROM
-            movie_writer
-                NATURAL JOIN movie
+            movie
                 NATURAL JOIN writer
         WHERE
             writer_name = #{writerName}
@@ -86,8 +83,7 @@
             runtime,
             releasedate
         FROM
-            movie_actor
-                NATURAL JOIN movie
+            movie
                 NATURAL JOIN actor
         WHERE
             actor_name = #{actorName}
@@ -99,13 +95,13 @@
             runtime,
             releasedate
         FROM
-            movie_actor
-                NATURAL JOIN movie
+            movie
                 NATURAL JOIN actor
         WHERE
             actor_name = #{actorName}
           AND isleading = "True"
     </select>
+
     <select id="getCoopAATop" resultType="com.example.backend1.entity.mysql.CoopAA">
         SELECT
             actor.actor_name AS actor1,
@@ -240,76 +236,6 @@
             cooptimes DESC
             LIMIT 20
     </select>
-    <select id="getMoviesByGenres" resultType="com.example.backend1.entity.mysql.MovieDetail">
-        SELECT
-            movie_id,
-            title,
-            runtime,
-            releasedate
-        FROM
-            movie
-                NATURAL JOIN movie_genres
-                NATURAL JOIN genres
-        WHERE
-            genres_name = #{genres}
-    </select>
-    <select id="getGenresRanking" resultType="com.example.backend1.entity.mysql.Genres">
-        SELECT
-            genres_name AS genres,
-            num
-        FROM
-            (
-                SELECT
-                    genres_id,
-                    count(movie_id) AS num
-                FROM
-                    movie
-                        NATURAL JOIN movie_genres
-                GROUP BY
-                    genres_id
-            ) AS result
-                NATURAL JOIN genres
-        ORDER BY
-            num DESC
-    </select>
-    <select id="getMoviesByScore" resultType="com.example.backend1.entity.mysql.MovieScore">
-        SELECT
-            movie_id,
-            title,
-            avgScore
-        FROM
-            (
-                SELECT
-                    movie_id,
-                    AVG(score) AS avgScore
-                FROM
-                    review
-                GROUP BY
-                    movie_id
-                HAVING
-                    avgScore &gt; #{score}
-            ) AS movieScore
-                NATURAL JOIN movie
-    </select>
-    <select id="getMoviesByReviewNum" resultType="com.example.backend1.entity.mysql.MovieReview">
-        SELECT
-            movie_id,
-            title,
-            reviewNum
-        FROM
-            (
-                SELECT
-                    movie_id,
-                    count(reviewer_id) AS reviewNum
-                FROM
-                    review
-                GROUP BY
-                    movie_id
-            ) AS movieScore
-                NATURAL JOIN movie
-        ORDER BY reviewNum DESC
-            LIMIT 20
-    </select>
     <select id="getCoopADByActor" resultType="com.example.backend1.entity.mysql.CoopAD">
         SELECT
             actor_name AS actor,
@@ -376,4 +302,68 @@
                 JOIN actor ON COOPTEMP.actor_id = actor.actor_id
         ORDER BY cooptimes DESC
     </select>
+
+    <select id="getMoviesByGenres" resultType="com.example.backend1.entity.mysql.MovieDetail">
+        SELECT
+            movie_id,
+            title,
+            runtime,
+            releasedate
+        FROM
+            movie
+                NATURAL JOIN genres
+        WHERE
+            genres_name = #{genres}
+    </select>
+    <select id="getGenresRanking" resultType="com.example.backend1.entity.mysql.Genres">
+        SELECT
+            genres_name AS genres,
+            count(movie_id) AS num
+        FROM
+            movie
+                NATURAL JOIN genres
+        GROUP BY
+            genres_name
+        ORDER BY
+            num DESC
+    </select>
+    <select id="getMoviesByScore" resultType="com.example.backend1.entity.mysql.MovieScore">
+        SELECT
+            movie_id,
+            title,
+            avgScore
+        FROM
+            (
+                SELECT
+                    movie_id,
+                    AVG(score) AS avgScore
+                FROM
+                    review
+                GROUP BY
+                    movie_id
+                HAVING
+                    avgScore &gt; #{score}
+            ) AS movieScore
+                NATURAL JOIN movie
+    </select>
+    <select id="getMoviesByReviewNum" resultType="com.example.backend1.entity.mysql.MovieReview">
+        SELECT
+            movie_id,
+            title,
+            reviewNum
+        FROM
+            (
+                SELECT
+                    movie_id,
+                    count(reviewer_id) AS reviewNum
+                FROM
+                    review
+                GROUP BY
+                    movie_id
+            ) AS movieScore
+                NATURAL JOIN movie
+        ORDER BY reviewNum DESC
+            LIMIT 20
+    </select>
+
 </mapper>

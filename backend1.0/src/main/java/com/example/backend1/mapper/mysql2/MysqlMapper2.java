@@ -1,4 +1,4 @@
-package com.example.backend1.mapper.mysql;
+package com.example.backend1.mapper.mysql2;
 
 import com.example.backend1.entity.mysql.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface MysqlMapper {
+public interface MysqlMapper2 {
     List<MovieDetail> getMoviesByYear(String year);
 
     List<MovieDetail> getMoviesByYM(String year, String month);
@@ -46,5 +46,4 @@ public interface MysqlMapper {
     List<MovieScore> getMoviesByScore(Integer score);
 
     List<MovieReview> getMoviesByReviewNum();
-
 }
