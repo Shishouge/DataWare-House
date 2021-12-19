@@ -2,15 +2,16 @@ package com.example.backend1.controller.mysql2;
 
 import com.example.backend1.entity.mysql.*;
 import com.example.backend1.mapper.mysql2.MysqlMapper2;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(tags = {"Denormalization MovieDB"})
 @RestController
 @CrossOrigin
-@ApiOperation("MysqlMovieDB-Denormalization")
 public class mysqlController2 {
     @Autowired
     MysqlMapper2 mysqlMapper;
@@ -192,6 +193,7 @@ public class mysqlController2 {
         return new Helper(coopADList,millsecs);
     }
 
+    // Search for the actors that worked together with a certain actor
     @RequestMapping(value = "/getCoopAAByActorFromD2",method = RequestMethod.GET)
     @ApiOperation("Search for the actors that worked together with a certain actor")
     public Helper getCoopAAByActor(String actor){
@@ -202,6 +204,7 @@ public class mysqlController2 {
         return new Helper(coopAAList,millsecs);
     }
 
+    // Search for movies by a certain genres
     @RequestMapping(value = "/getMoviesByGenresFromD2",method = RequestMethod.GET)
     @ApiOperation("Search for movies by a certain genres")
     public Helper getMoviesByGenres(String genres){
@@ -212,6 +215,7 @@ public class mysqlController2 {
         return new Helper(movieDetails,millsecs);
     }
 
+    // Search for genres ranking based on the num of movies
     @RequestMapping(value = "/getGenresRankingFromD2",method = RequestMethod.GET)
     @ApiOperation("Search for genres ranking based on the num of movies")
     public Helper getGenresRanking(){
@@ -221,6 +225,7 @@ public class mysqlController2 {
         return new Helper(genresList,millsecs);
     }
 
+    // Search for movies by score
     @RequestMapping(value = "/getMoviesByScoreFromD2",method = RequestMethod.GET)
     @ApiOperation("Search for movies by score")
     public Helper getMoviesByScore(Integer score){
@@ -231,6 +236,7 @@ public class mysqlController2 {
         return new Helper(movies,millsecs);
     }
 
+    // Search for the top 20 movies receiving most reviews
     @RequestMapping(value = "/getMoviesByReviewNumFromD2",method = RequestMethod.GET)
     @ApiOperation("Search for the top 20 movies receiving most reviews")
     public Helper getMoviesByReviewNum(){

@@ -2,12 +2,14 @@ package com.example.backend1.controller.mysql;
 
 import com.example.backend1.entity.mysql.*;
 import com.example.backend1.mapper.mysql.MysqlMapper;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(tags = {"Normalization MovieDB"})
 @RestController
 @CrossOrigin
 public class mysqlController {
@@ -243,6 +245,4 @@ public class mysqlController {
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(moives,millsecs);
     }
-
-
 }
