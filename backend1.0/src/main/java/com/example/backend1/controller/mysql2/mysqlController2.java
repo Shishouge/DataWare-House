@@ -3,6 +3,8 @@ package com.example.backend1.controller.mysql2;
 import com.example.backend1.entity.mysql.*;
 import com.example.backend1.mapper.mysql2.MysqlMapper2;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +22,10 @@ public class mysqlController2 {
     //Search for movies by the year released
     @RequestMapping(value = "/getMoviesByYearFromD2", method = RequestMethod.GET)
     @ApiOperation("Search for movies by the year released")
-    public Helper getMoviesByYear(String year){
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "year",value = "default:2014")
+    })
+    public Helper getMoviesByYear(@RequestParam(value = "year") String year){
 //        year="2014";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails =mysqlMapper.getMoviesByYear(year);
@@ -79,7 +84,10 @@ public class mysqlController2 {
     //Search movies by the first few words of title
     @RequestMapping(value = "/getMoviesByTitleFromD2",method = RequestMethod.GET)
     @ApiOperation("Search movies by the first few words of title")
-    public Helper getMoviesByTitle(String title){
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "title",value = "default:Harry Potter")
+    })
+    public Helper getMoviesByTitle(@RequestParam(value = "title") String title){
 //        title="Harry Potter";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetailList =mysqlMapper.getMoviesByTitle(title);
@@ -90,7 +98,10 @@ public class mysqlController2 {
     //Search for movie by full title
     @RequestMapping(value = "/getMovieByTitleFromD2",method = RequestMethod.GET)
     @ApiOperation("Search for movie by full title")
-    public Helper getMovieByTitle(String title){
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "title",value = "To Be or Not to Be")
+    })
+    public Helper getMovieByTitle(@RequestParam(value = "title") String title){
 //        title="Harry Potter";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetailList =mysqlMapper.getMovieByTitle(title);
@@ -101,7 +112,10 @@ public class mysqlController2 {
     // Search for movies by director
     @RequestMapping(value = "/getMoviesByDirectorFromD2",method = RequestMethod.GET)
     @ApiOperation("Search for movies by director")
-    public Helper getMoviesByDirector(String name){
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "name",value = "directorname : John huston")
+    })
+    public Helper getMoviesByDirector(@RequestParam(value = "name") String name){
 //        name = "John huston";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails = mysqlMapper.getMoviesByDirector(name);
@@ -112,7 +126,10 @@ public class mysqlController2 {
     // Search for movies by writer
     @RequestMapping(value = "/getMoviesByWriterFromD2",method = RequestMethod.GET)
     @ApiOperation("Search for movies by writer")
-    public Helper getMoviesByWriter(String name){
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "name",value = "writername : Ethan Coen")
+    })
+    public Helper getMoviesByWriter(@RequestParam String name){
 //        name = "Ethan Coen";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails = mysqlMapper.getMoviesByWriter(name);
@@ -123,7 +140,10 @@ public class mysqlController2 {
     // Search for movies by actor
     @RequestMapping(value = "/getMoviesByActorFromD2",method = RequestMethod.GET)
     @ApiOperation("Search for movies by actor")
-    public Helper getMoviesByActor(String name){
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "name",value = "actorname : Oliver Hardy")
+    })
+    public Helper getMoviesByActor(@RequestParam(value = "name") String name){
 //        name = "Oliver Hardy";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails = mysqlMapper.getMoviesByActor(name);
@@ -134,7 +154,10 @@ public class mysqlController2 {
     // Search for movies by leading actor
     @RequestMapping(value = "/getMoviesLeadingByActorFromD2",method = RequestMethod.GET)
     @ApiOperation("Search for movies by leading actor")
-    public Helper getMoviesLeadingByActor(String name){
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "name",value = "actorname : Morgan Freeman")
+    })
+    public Helper getMoviesLeadingByActor(@RequestParam(value = "name") String name){
 //        name = "Morgan Freeman";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails = mysqlMapper.getMoviesLeadingByActor(name);
@@ -185,7 +208,10 @@ public class mysqlController2 {
     // Search for the directors that worked together with a certain actor
     @RequestMapping(value = "/getCoopADByActorFromD2",method = RequestMethod.GET)
     @ApiOperation("Search for the directors that worked together with a certain actor")
-    public Helper getCoopADByActor(String actor){
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "name",value = "actorname : Todd Haberkorn")
+    })
+    public Helper getCoopADByActor(@RequestParam(value = "name") String actor){
 //        actor = "Todd Haberkorn";
         long startTime = System.nanoTime();
         List<CoopAD> coopADList = mysqlMapper.getCoopADByActor(actor);
@@ -196,7 +222,10 @@ public class mysqlController2 {
     // Search for the actors that worked together with a certain actor
     @RequestMapping(value = "/getCoopAAByActorFromD2",method = RequestMethod.GET)
     @ApiOperation("Search for the actors that worked together with a certain actor")
-    public Helper getCoopAAByActor(String actor){
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "name",value = "actorname : Todd Haberkorn")
+    })
+    public Helper getCoopAAByActor(@RequestParam(value = "name") String actor){
 //        actor = "Todd Haberkorn";
         long startTime = System.nanoTime();
         List<CoopAA> coopAAList = mysqlMapper.getCoopAAByActor(actor);

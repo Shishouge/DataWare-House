@@ -52,7 +52,6 @@
         FROM movie
         WHERE title = #{title}
     </select>
-
     <select id="getMoviesByDirector" resultType="com.example.backend1.entity.mysql.MovieDetail">
         SELECT
             movie_id,

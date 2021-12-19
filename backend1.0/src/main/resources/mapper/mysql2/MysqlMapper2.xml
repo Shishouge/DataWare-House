@@ -59,8 +59,7 @@
             runtime,
             releasedate
         FROM
-            movie
-                NATURAL JOIN director
+            movie_director
         WHERE
             director_name = #{directorName}
     </select>
@@ -71,8 +70,7 @@
             runtime,
             releasedate
         FROM
-            movie
-                NATURAL JOIN writer
+            movie_writer
         WHERE
             writer_name = #{writerName}
     </select>
@@ -83,8 +81,7 @@
             runtime,
             releasedate
         FROM
-            movie
-                NATURAL JOIN actor
+            movie_actor
         WHERE
             actor_name = #{actorName}
     </select>
@@ -95,8 +92,7 @@
             runtime,
             releasedate
         FROM
-            movie
-                NATURAL JOIN actor
+            movie_actor
         WHERE
             actor_name = #{actorName}
           AND isleading = "True"
@@ -104,203 +100,123 @@
 
     <select id="getCoopAATop" resultType="com.example.backend1.entity.mysql.CoopAA">
         SELECT
-            actor.actor_name AS actor1,
-            temp.actor_name AS actor2,
-            cooptimes
+        actor.actor_name AS actor1,
+        temp.actor_name AS actor2,
+        cooptimes
         FROM
-            (
-                SELECT
-                    D1.actor_id AS actor_id1,
-                    D2.actor_id AS actor_id2,
-                    count(D1.movie_id) cooptimes
-                FROM
-                    movie_actor D1
-                        JOIN movie_actor D2 ON D1.movie_id = D2.movie_id
-                WHERE
-                    D2.actor_id &lt; D1.actor_id
-                GROUP BY
-                    D1.actor_id,
-                    D2.actor_id
-                ORDER BY
-                    cooptimes DESC
-            ) AS result
-                LEFT JOIN actor ON actor.actor_id = result.actor_id1
-                LEFT JOIN actor AS temp ON temp.actor_id = result.actor_id2
-            LIMIT 20
+        (
+        SELECT
+        M1.actor_id AS actor_id1,
+        M2.actor_id AS actor_id2,
+        count(M1.movie_id) cooptimes
+        FROM
+        actor AS M1
+        JOIN actor M2 ON M1.movie_id = M2.movie_id
+        WHERE
+        M2.actor_id &lt; M1.actor_id
+        GROUP BY
+        M1.actor_id,
+        M2.actor_id
+        ORDER BY
+        cooptimes DESC
+        LIMIT 20
+        ) AS result
+        LEFT JOIN actor ON actor.actor_id = result.actor_id1
+        LEFT JOIN actor AS temp ON temp.actor_id = result.actor_id2
+        LIMIT 20
     </select>
     <select id="getCoopADTop" resultType="com.example.backend1.entity.mysql.CoopAD">
         SELECT
-            search.actor_name AS actor,
-            search.director_name AS director,
-            count(search.movie_id1) cooptimes
+        actor_name as actor,
+        director_name as director,
+        count(movie_id) cooptimes
         FROM
-            (
-                SELECT
-                    *
-                FROM
-                    (
-                        SELECT
-                            movie_id AS movie_id1,
-                            actor_name
-                        FROM
-                            movie_actor
-                                NATURAL JOIN actor
-                    ) AS D1
-                        JOIN (
-                        SELECT
-                            movie_id AS movie_id2,
-                            director_name
-                        FROM
-                            movie_director
-                                NATURAL JOIN director
-                    ) AS D2 ON D1.movie_id1 = D2.movie_id2
-            ) AS search
+        actor
+        NATURAL JOIN director
         WHERE
-            search.director_name &lt; search.actor_name OR search.director_name &gt; search.actor_name
+        actor_name &lt; director_name OR actor_name &gt; director_name
         GROUP BY
-            search.actor_name,
-            search.director_name
+        actor_name,
+        director_name
         ORDER BY
-            cooptimes DESC
-            LIMIT 20
+        cooptimes DESC
+        LIMIT 20
     </select>
     <select id="getCoopAWTop" resultType="com.example.backend1.entity.mysql.CoopAW">
         SELECT
-            search.actor_name AS actor,
-            search.writer_name AS writer,
-            count(search.movie_id1) cooptimes
+        actor_name as actor,
+        writer_name as writer,
+        count(movie_id) cooptimes
         FROM
-            (
-                SELECT
-                    *
-                FROM
-                    (
-                        SELECT
-                            movie_id AS movie_id1,
-                            writer_name
-                        FROM
-                            movie_writer
-                                NATURAL JOIN writer
-                    ) AS D1
-                        JOIN (
-                        SELECT
-                            movie_id AS movie_id2,
-                            actor_name
-                        FROM
-                            movie_actor
-                                NATURAL JOIN actor
-                    ) AS D2 ON D1.movie_id1 = D2.movie_id2
-            ) AS search
+        actor
+        NATURAL JOIN writer
         WHERE
-            search.actor_name &lt; search.writer_name OR search.actor_name &gt; search.writer_name
+        actor_name &lt; writer_name OR actor_name &gt; writer_name
         GROUP BY
-            search.writer_name,
-            search.actor_name
+        actor_name,
+        writer_name
         ORDER BY
-            cooptimes DESC
-            LIMIT 20
+        cooptimes DESC
+        LIMIT 20
     </select>
     <select id="getCoopDWTop" resultType="com.example.backend1.entity.mysql.CoopDW">
         SELECT
-            search.director_name AS director,
-            search.writer_name AS writer,
-            count(search.movie_id1) cooptimes
+        director_name AS director,
+        writer_name AS writer,
+        count(movie_id) cooptimes
         FROM
-            (
-                SELECT
-                    *
-                FROM
-                    (
-                        SELECT
-                            movie_id AS movie_id1,
-                            writer_name
-                        FROM
-                            movie_writer
-                                NATURAL JOIN writer
-                    ) AS D1
-                        JOIN (
-                        SELECT
-                            movie_id AS movie_id2,
-                            director_name
-                        FROM
-                            movie_director
-                                NATURAL JOIN director
-                    ) AS D2 ON D1.movie_id1 = D2.movie_id2
-            ) AS search
+        director
+        NATURAL JOIN writer
         WHERE
-            search.director_name &lt; search.writer_name OR search.director_name &gt; search.writer_name
+        director_name &lt; writer_name OR director_name &gt; writer_name
         GROUP BY
-            search.writer_name,
-            search.director_name
+        director_name,
+        writer_name
         ORDER BY
-            cooptimes DESC
-            LIMIT 20
+        cooptimes DESC
+        LIMIT 20
     </select>
     <select id="getCoopADByActor" resultType="com.example.backend1.entity.mysql.CoopAD">
         SELECT
             actor_name AS actor,
             director_name AS director,
-            cooptimes
+            count(director.movie_id) cooptimes
         FROM
             (
                 SELECT
-                    actor_name,
-                    director_id,
-                    count(actor_name) AS cooptimes
+                    *
                 FROM
-                    (
-                        SELECT
-                            actor_id,
-                            actor_name
-                        FROM
-                            actor
-                        WHERE
-                            actor_name = #{actor}
-                    ) AS ACTORTEMP
-                        NATURAL JOIN movie_actor
-                        NATURAL JOIN movie_director
-                GROUP BY
-                    director_id
-            ) AS COOPTEMP
+                    actor
+                WHERE
+                    actor_name = #{actor}
+            ) AS T
                 NATURAL JOIN director
+        GROUP BY
+            director_name
+        ORDER BY
+            cooptimes DESC
     </select>
     <select id="getCoopAAByActor" resultType="com.example.backend1.entity.mysql.CoopAA">
         SELECT
-            COOPTEMP.actor_name AS actor1,
-            actor.actor_name AS actor2,
-            cooptimes
+        T.actor_name AS actor1,
+        actor.actor_name AS actor2,
+        count(T.actor_name) cooptimes
         FROM
-            (
-                SELECT
-                    actor_name,
-                    movie_actor.actor_id,
-                    count(actor_name) AS cooptimes
-                FROM
-                    (
-                        SELECT
-                            actor_id,
-                            actor_name,
-                            movie_id
-                        FROM
-                            (
-                                SELECT
-                                    actor_id,
-                                    actor_name
-                                FROM
-                                    actor
-                                WHERE
-                                    actor_name = #{actor}
-                            ) AS ACTORTEMP
-                                NATURAL JOIN movie_actor
-                    ) AS ACTOR
-                        JOIN movie_actor ON ACTOR.movie_id = movie_actor.movie_id
-                WHERE
-                    ACTOR.actor_id &lt; movie_actor.actor_id OR ACTOR.actor_id &gt; movie_actor.actor_id
-                GROUP BY
-                    movie_actor.actor_id
-            ) AS COOPTEMP
-                JOIN actor ON COOPTEMP.actor_id = actor.actor_id
-        ORDER BY cooptimes DESC
+        (
+        SELECT
+        *
+        FROM
+        actor
+        WHERE
+        actor_name = #{actor}
+        ) AS T
+        JOIN actor ON T.movie_id = actor.movie_id
+        WHERE
+        actor.actor_name &lt; T.actor_name OR actor.actor_name &gt; T.actor_name
+        GROUP BY
+        actor.actor_name
+        ORDER BY
+        cooptimes DESC
     </select>
 
     <select id="getMoviesByGenres" resultType="com.example.backend1.entity.mysql.MovieDetail">
