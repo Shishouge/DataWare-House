@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -274,5 +275,23 @@ public class mysqlController {
         List<MovieReview> moives = mysqlMapper.getMoviesByReviewNum();
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(moives,millsecs);
+    }
+
+    @RequestMapping(value = "/getMoviesByCombination",method = RequestMethod.GET)
+    @ApiOperation("Search for movies by combination conditions")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "actor", value = "Todd Haberkorn"),
+            @ApiImplicitParam(name = "director", value = "John huston"),
+            @ApiImplicitParam(name = "genres", value = "Romance")
+    })
+    public Helper getMoviesByCombination(
+            Integer year , Integer month , Integer quarter,
+            String title , @RequestParam(value = "actor") String actor, @RequestParam(value = "director") String director ,
+            @RequestParam(value = "genres") String genres , Integer score
+    ){
+        long startTime = System.nanoTime();
+        List<MovieDetail> movieDetails = mysqlMapper.getMoviesByCombination(year, month, quarter, title, actor, director, genres,score);
+        double millsecs = (System.nanoTime() - startTime) / 1000000.0;
+        return new Helper(movieDetails,millsecs);
     }
 }

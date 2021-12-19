@@ -375,4 +375,82 @@
                 JOIN actor ON COOPTEMP.actor_id = actor.actor_id
         ORDER BY cooptimes DESC
     </select>
+    <select id="getMoviesByCombination"  resultType="com.example.backend1.entity.mysql.MovieDetail">
+        SELECT
+            movie_id,
+            title,
+            runtime,
+            releasedate
+        FROM
+            movie
+        <where>
+            <if test="year != null">
+                YEAR (releasedate) = #{year}
+            </if>
+            <if test="month != null">
+                AND MONTH (releasedate) = #{month}
+            </if>
+            <if test="quarter != null">
+                AND QUARTER (releasedate) = #{quarter}
+            </if>
+            <if test="title != null">
+                AND title like CONCAT('%',#{title},'%')
+            </if>
+            <if test="actor != null">
+                AND movie_id in (
+                    SELECT
+                    movie_id
+                    FROM
+                    movie_actor
+                    NATURAL JOIN movie
+                    NATURAL JOIN actor
+                    WHERE
+                    actor_name = #{actor}
+                )
+            </if>
+            <if test="genres != null">
+                AND movie_id in (
+                    SELECT
+                    movie_id
+                    FROM
+                    movie
+                    NATURAL JOIN movie_genres
+                    NATURAL JOIN genres
+                    WHERE
+                    genres_name = #{genres}
+                )
+            </if>
+            <if test="director != null">
+                AND movie_id in (
+                    SELECT
+                    movie_id
+                    FROM
+                    movie
+                    NATURAL JOIN movie_director
+                    NATURAL JOIN director
+                    WHERE
+                    director_name = #{director}
+                )
+            </if>
+            <if test="score != null">
+                AND movie_id in (
+                    SELECT
+                    movie_id
+                    FROM
+                    (
+                    SELECT
+                    movie_id,
+                    AVG(score) AS avgScore
+                    FROM
+                    review
+                    GROUP BY
+                    movie_id
+                    HAVING
+                    avgScore &gt; #{score}
+                    ) AS movieScore
+                    NATURAL JOIN movie
+                )
+            </if>
+        </where>
+    </select>
 </mapper>

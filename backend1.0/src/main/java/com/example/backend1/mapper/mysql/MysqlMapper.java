@@ -47,4 +47,9 @@ public interface MysqlMapper {
 
     List<MovieReview> getMoviesByReviewNum();
 
+    List<MovieDetail> getMoviesByCombination(
+            Integer year , Integer month , Integer quarter,
+            String title , String actor, String director ,
+            String genres, Integer score);
+
 }
