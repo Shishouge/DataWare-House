@@ -2,6 +2,7 @@ package com.example.backend1.controller.mysql2;
 
 import com.example.backend1.entity.mysql.*;
 import com.example.backend1.mapper.mysql2.MysqlMapper2;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@ApiOperation("MysqlMovieDB-Denormalization")
 public class mysqlController2 {
     @Autowired
     MysqlMapper2 mysqlMapper;
@@ -18,7 +20,7 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMoviesByYearFromD2", method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByYear(String year){
-        year="2014";
+//        year="2014";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails =mysqlMapper.getMoviesByYear(year);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -30,7 +32,7 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMoviesNumByYearFromD2", method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesNumByYear(String year){
-        year="2014";
+//        year="2014";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails =mysqlMapper.getMoviesByYear(year);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -41,8 +43,8 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMoviesByYMFromD2", method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByYM(String year, String month){
-        year="2014";
-        month="3";
+//        year="2014";
+//        month="3";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails =mysqlMapper.getMoviesByYM(year,month);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -53,8 +55,8 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMoviesNumByYMFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesNumByYM(String year,String month){
-        year="2014";
-        month="3";
+//        year="2014";
+//        month="3";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails =mysqlMapper.getMoviesByYM(year,month);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -65,8 +67,8 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMoviesByYQFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByYQ(String year, String quarter){
-        year="2014";
-        quarter="1";
+//        year="2014";
+//        quarter="1";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails = mysqlMapper.getMoviesByYQ(year, quarter);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -77,7 +79,7 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMoviesByTitleFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByTitle(String title){
-        title="Harry Potter";
+//        title="Harry Potter";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetailList =mysqlMapper.getMoviesByTitle(title);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -88,7 +90,7 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMovieByTitleFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMovieByTitle(String title){
-        title="Harry Potter";
+//        title="Harry Potter";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetailList =mysqlMapper.getMovieByTitle(title);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -98,7 +100,7 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMoviesByDirectorFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByDirector(String name){
-        name = "John huston";
+//        name = "John huston";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails = mysqlMapper.getMoviesByDirector(name);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -108,7 +110,7 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMoviesByWriterFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByWriter(String name){
-        name = "Ethan Coen";
+//        name = "Ethan Coen";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails = mysqlMapper.getMoviesByWriter(name);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -118,7 +120,7 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMoviesByActorFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByActor(String name){
-        name = "Oliver Hardy";
+//        name = "Oliver Hardy";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails = mysqlMapper.getMoviesByActor(name);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -128,7 +130,7 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMoviesLeadingByActorFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesLeadingByActor(String name){
-        name = "Morgan Freeman";
+//        name = "Morgan Freeman";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails = mysqlMapper.getMoviesLeadingByActor(name);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -175,7 +177,7 @@ public class mysqlController2 {
     @RequestMapping(value = "/getCoopADByActorFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getCoopADByActor(String actor){
-        actor = "Todd Haberkorn";
+//        actor = "Todd Haberkorn";
         long startTime = System.nanoTime();
         List<CoopAD> coopADList = mysqlMapper.getCoopADByActor(actor);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -185,7 +187,7 @@ public class mysqlController2 {
     @RequestMapping(value = "/getCoopAAByActorFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getCoopAAByActor(String actor){
-        actor = "Todd Haberkorn";
+//        actor = "Todd Haberkorn";
         long startTime = System.nanoTime();
         List<CoopAA> coopAAList = mysqlMapper.getCoopAAByActor(actor);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -195,7 +197,7 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMoviesByGenresFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByGenres(String genres){
-        genres = "Action";
+//        genres = "Action";
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails = mysqlMapper.getMoviesByGenres(genres);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -214,7 +216,7 @@ public class mysqlController2 {
     @RequestMapping(value = "/getMoviesByScoreFromD2",method = RequestMethod.GET)
     @ResponseBody
     public Helper getMoviesByScore(Integer score){
-        score = 4;
+//        score = 4;
         long startTime = System.nanoTime();
         List<MovieScore> movies = mysqlMapper.getMoviesByScore(score);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
