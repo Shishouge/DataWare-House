@@ -18,7 +18,7 @@ public class mysqlController2 {
 
     //Search for movies by the year released
     @RequestMapping(value = "/getMoviesByYearFromD2", method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for movies by the year released")
     public Helper getMoviesByYear(String year){
 //        year="2014";
         long startTime = System.nanoTime();
@@ -30,7 +30,7 @@ public class mysqlController2 {
 
     //Search for the num of movies released by a certain year
     @RequestMapping(value = "/getMoviesNumByYearFromD2", method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for the num of movies released by a certain year")
     public Helper getMoviesNumByYear(String year){
 //        year="2014";
         long startTime = System.nanoTime();
@@ -41,7 +41,7 @@ public class mysqlController2 {
 
     //Search for movies by a certain month of a certain year
     @RequestMapping(value = "/getMoviesByYMFromD2", method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for movies by a certain month of a certain year")
     public Helper getMoviesByYM(String year, String month){
 //        year="2014";
 //        month="3";
@@ -53,7 +53,7 @@ public class mysqlController2 {
 
     //Search for the num of movies released in a certain month of a certain year
     @RequestMapping(value = "/getMoviesNumByYMFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for the num of movies released in a certain month of a certain year")
     public Helper getMoviesNumByYM(String year,String month){
 //        year="2014";
 //        month="3";
@@ -65,7 +65,7 @@ public class mysqlController2 {
 
     //Search for movies by a certain quarter in a certain year
     @RequestMapping(value = "/getMoviesByYQFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for movies by a certain quarter in a certain year")
     public Helper getMoviesByYQ(String year, String quarter){
 //        year="2014";
 //        quarter="1";
@@ -77,7 +77,7 @@ public class mysqlController2 {
 
     //Search movies by the first few words of title
     @RequestMapping(value = "/getMoviesByTitleFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search movies by the first few words of title")
     public Helper getMoviesByTitle(String title){
 //        title="Harry Potter";
         long startTime = System.nanoTime();
@@ -88,7 +88,7 @@ public class mysqlController2 {
 
     //Search for movie by full title
     @RequestMapping(value = "/getMovieByTitleFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for movie by full title")
     public Helper getMovieByTitle(String title){
 //        title="Harry Potter";
         long startTime = System.nanoTime();
@@ -97,8 +97,9 @@ public class mysqlController2 {
         return new Helper(movieDetailList,millsecs);
     }
 
+    // Search for movies by director
     @RequestMapping(value = "/getMoviesByDirectorFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for movies by director")
     public Helper getMoviesByDirector(String name){
 //        name = "John huston";
         long startTime = System.nanoTime();
@@ -107,8 +108,9 @@ public class mysqlController2 {
         return new Helper(movieDetails,millsecs);
     }
 
+    // Search for movies by writer
     @RequestMapping(value = "/getMoviesByWriterFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for movies by writer")
     public Helper getMoviesByWriter(String name){
 //        name = "Ethan Coen";
         long startTime = System.nanoTime();
@@ -117,8 +119,9 @@ public class mysqlController2 {
         return new Helper(movieDetails,millsecs);
     }
 
+    // Search for movies by actor
     @RequestMapping(value = "/getMoviesByActorFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for movies by actor")
     public Helper getMoviesByActor(String name){
 //        name = "Oliver Hardy";
         long startTime = System.nanoTime();
@@ -127,8 +130,9 @@ public class mysqlController2 {
         return new Helper(movieDetails,millsecs);
     }
 
+    // Search for movies by leading actor
     @RequestMapping(value = "/getMoviesLeadingByActorFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for movies by leading actor")
     public Helper getMoviesLeadingByActor(String name){
 //        name = "Morgan Freeman";
         long startTime = System.nanoTime();
@@ -139,7 +143,7 @@ public class mysqlController2 {
 
     //Search for the top 20 groups of actors and actresses that worked together the most
     @RequestMapping(value = "/getCoopAATopFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for the top 20 groups of actors and actresses that worked together the most")
     public Helper getCoopAATop(){
         long startTime = System.nanoTime();
         List<CoopAA> coopAAList = mysqlMapper.getCoopAATop();
@@ -147,8 +151,9 @@ public class mysqlController2 {
         return new Helper(coopAAList,millsecs);
     }
 
+    // Search for the top 20 groups of actors and directors that worked together the most
     @RequestMapping(value = "/getCoopADTopFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for the top 20 groups of actors and directors that worked together the most")
     public Helper getCoopADTop(){
         long startTime = System.nanoTime();
         List<CoopAD> coopADList = mysqlMapper.getCoopADTop();
@@ -156,8 +161,9 @@ public class mysqlController2 {
         return new Helper(coopADList,millsecs);
     }
 
+    // Search for the top 20 groups of actors and writers that worked together the most
     @RequestMapping(value = "/getCoopAWTopFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for the top 20 groups of actors and writers that worked together the most")
     public Helper getCoopAWTop(){
         long startTime = System.nanoTime();
         List<CoopAW> coopAWList = mysqlMapper.getCoopAWTop();
@@ -165,8 +171,9 @@ public class mysqlController2 {
         return new Helper(coopAWList,millsecs);
     }
 
+    // Search for the top 20 groups of directors and writers that worked together the most
     @RequestMapping(value = "/getCoopDWTopFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for the top 20 groups of directors and writers that worked together the most")
     public Helper getCoopDWTop(){
         long startTime = System.nanoTime();
         List<CoopDW> coopDWList = mysqlMapper.getCoopDWTop();
@@ -174,8 +181,9 @@ public class mysqlController2 {
         return new Helper(coopDWList,millsecs);
     }
 
+    // Search for the directors that worked together with a certain actor
     @RequestMapping(value = "/getCoopADByActorFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for the directors that worked together with a certain actor")
     public Helper getCoopADByActor(String actor){
 //        actor = "Todd Haberkorn";
         long startTime = System.nanoTime();
@@ -185,7 +193,7 @@ public class mysqlController2 {
     }
 
     @RequestMapping(value = "/getCoopAAByActorFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for the actors that worked together with a certain actor")
     public Helper getCoopAAByActor(String actor){
 //        actor = "Todd Haberkorn";
         long startTime = System.nanoTime();
@@ -195,7 +203,7 @@ public class mysqlController2 {
     }
 
     @RequestMapping(value = "/getMoviesByGenresFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for movies by a certain genres")
     public Helper getMoviesByGenres(String genres){
 //        genres = "Action";
         long startTime = System.nanoTime();
@@ -205,7 +213,7 @@ public class mysqlController2 {
     }
 
     @RequestMapping(value = "/getGenresRankingFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for genres ranking based on the num of movies")
     public Helper getGenresRanking(){
         long startTime = System.nanoTime();
         List<Genres> genresList = mysqlMapper.getGenresRanking();
@@ -214,7 +222,7 @@ public class mysqlController2 {
     }
 
     @RequestMapping(value = "/getMoviesByScoreFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for movies by score")
     public Helper getMoviesByScore(Integer score){
 //        score = 4;
         long startTime = System.nanoTime();
@@ -224,7 +232,7 @@ public class mysqlController2 {
     }
 
     @RequestMapping(value = "/getMoviesByReviewNumFromD2",method = RequestMethod.GET)
-    @ResponseBody
+    @ApiOperation("Search for the top 20 movies receiving most reviews")
     public Helper getMoviesByReviewNum(){
         long startTime = System.nanoTime();
         List<MovieReview> moives = mysqlMapper.getMoviesByReviewNum();
