@@ -29,17 +29,7 @@ public class neo4jController {
             String name1=totalName.substring(0,totalName.indexOf("+"));
             String name2=totalName.substring(name1.length()+1,totalName.length());
             CoopDetail detail=new CoopDetail(name1,name2,TopCoopAAs.get(i).getCount());
-            boolean flag=true;
-            for(int j=0;j< result.size();j++)
-            {
-                if(result.get(j).getName1().equals(name2)||result.get(j).getName2().equals(name1))
-                {
-                    flag=false;
-                    break;
-                }
-            }
-            if(flag)
-                result.add(detail);
+            result.add(detail);
         }
         Helper helper=new Helper(result,millsecs);
         return helper;
@@ -56,17 +46,7 @@ public class neo4jController {
             String name1=totalName.substring(0,totalName.indexOf("+"));
             String name2=totalName.substring(name1.length()+1,totalName.length());
             CoopDetail detail=new CoopDetail(name1,name2,c.getCount());
-            boolean flag=true;
-            for(int j=0;j< result.size();j++)
-            {
-                if(result.get(j).getName1().equals(name2)||result.get(j).getName2().equals(name1))
-                {
-                    flag=false;
-                    break;
-                }
-            }
-            if(flag)
-                result.add(detail);
+            result.add(detail);
         }
         Helper helper=new Helper(result,millsecs);
         return helper;
@@ -83,17 +63,7 @@ public class neo4jController {
             String name1=totalName.substring(0,totalName.indexOf("+"));
             String name2=totalName.substring(name1.length()+1,totalName.length());
             CoopDetail detail=new CoopDetail(name1,name2,c.getCount());
-            boolean flag=true;
-            for(int j=0;j< result.size();j++)
-            {
-                if(result.get(j).getName1().equals(name2)||result.get(j).getName2().equals(name1))
-                {
-                    flag=false;
-                    break;
-                }
-            }
-            if(flag)
-                result.add(detail);
+            result.add(detail);
         }
         Helper helper=new Helper(result,millsecs);
         return helper;
@@ -101,7 +71,6 @@ public class neo4jController {
 
     @RequestMapping(value = "/getTopCoopAAByName",method = RequestMethod.GET)
     public Helper getTopCoopAAByName(String name) {
-        name="\"Liam Neeson\"";
         long startTime = System.nanoTime();
         List<Coopration> TopCoopAAs= neo4jMapper.getCoopAA(name);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -119,7 +88,6 @@ public class neo4jController {
 
     @RequestMapping(value = "/getTopCoopADByName",method = RequestMethod.GET)
     public Helper getTopCoopADByName(String name) {
-        name="\"Liam Neeson\"";
         long startTime = System.nanoTime();
         List<Coopration> TopCoopADs= neo4jMapper.getCoopAD(name);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -137,7 +105,6 @@ public class neo4jController {
 
     @RequestMapping(value = "/getTopCoopAWByName",method = RequestMethod.GET)
     public Helper getTopCoopAWByName(String name) {
-        name="\"Liam Neeson\"";
         long startTime = System.nanoTime();
         List<Coopration> TopCoopAWs= neo4jMapper.getCoopAW(name);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
