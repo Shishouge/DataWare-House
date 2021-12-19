@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 
 
 @Configuration
-@MapperScan(basePackages = {"com.example.backend1.mapper.mysql2"}, sqlSessionFactoryRef = "mysqlSqlSessionFactory")
+@MapperScan(basePackages = {"com.example.backend1.mapper.mysql2"}, sqlSessionFactoryRef = "mysqlSqlSessionFactory2")
 public class MysqlSecondDataSourceConfig {
     @Primary
     @Bean(name = "MysqlDataSource2")
@@ -27,7 +27,7 @@ public class MysqlSecondDataSourceConfig {
 
     @Primary
     @Resource
-    @Bean(name = "mysqlSqlSessionFactory")
+    @Bean(name = "mysqlSqlSessionFactory2")
     public SqlSessionFactory sqlSessionFactory(@Qualifier("MysqlDataSource2") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
