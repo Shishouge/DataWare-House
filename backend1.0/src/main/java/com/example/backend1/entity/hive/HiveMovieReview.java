@@ -1,6 +1,6 @@
-package com.example.backend1.entity.mysql;
+package com.example.backend1.entity.hive;
 
-public class MovieReview extends Movie{
+public class HiveMovieReview extends HiveMovie{
 
     private Integer reviewNum;
 
