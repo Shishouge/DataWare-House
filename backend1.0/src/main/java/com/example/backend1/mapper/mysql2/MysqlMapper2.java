@@ -59,4 +59,6 @@ public interface MysqlMapper2 {
     List<CoopAW> getCoopAWByActor(String actor);
 
     List<CoopDW> getCoopDWByDirector(String director);
+
+    List<MovieVersion> getVersionByMovie(String title);
 }

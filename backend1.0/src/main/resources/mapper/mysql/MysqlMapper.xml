@@ -559,4 +559,19 @@
                     movie_id
             )
     </select>
+
+    <select id="getVersionByMovie" resultType="com.example.backend1.entity.mysql.MovieVersion">
+        SELECT
+            movie_id,
+            title,
+            runtime,
+            releasedate,
+            group_concat(product_asin) AS asin
+        FROM
+            movie
+                NATURAL JOIN product
+        WHERE
+            title = #{title}
+        GROUP BY movie_id
+    </select>
 </mapper>

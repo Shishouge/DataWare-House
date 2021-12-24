@@ -60,4 +60,6 @@ public interface MysqlMapper {
 
     List<CoopDW> getCoopDWByDirector(String director);
 
+    List<MovieVersion> getVersionByMovie(String title);
+
 }

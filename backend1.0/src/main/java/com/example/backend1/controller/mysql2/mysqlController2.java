@@ -335,4 +335,15 @@ public class mysqlController2 {
         return new Helper(movieDetails,millsecs);
     }
 
+    @RequestMapping(value = "/getVersionByMovieFromD2",method = RequestMethod.GET)
+    @ApiOperation("Search for version of a movie")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "title",value = "The Left Handed Gun")
+    })
+    public Helper getVersionByMovie(@RequestParam(value = "title") String title){
+        long startTime = System.nanoTime();
+        List<MovieVersion> movieVersions = mysqlMapper.getVersionByMovie(title);
+        double millsecs = (System.nanoTime() - startTime) / 1000000.0;
+        return new Helper(movieVersions,millsecs);
+    }
 }
