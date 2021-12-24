@@ -52,4 +52,12 @@ public interface MysqlMapper {
             String title , String actor, String director ,
             String genres, Integer score);
 
+    List<Review> getReviewsByMovie(String title);
+
+    List<MovieDetail> getMoviesWithoutNegReview();
+
+    List<CoopAW> getCoopAWByActor(String actor);
+
+    List<CoopDW> getCoopDWByDirector(String director);
+
 }

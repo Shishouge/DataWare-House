@@ -218,6 +218,46 @@
         ORDER BY
         cooptimes DESC
     </select>
+    <select id="getCoopAWByActor" resultType="com.example.backend1.entity.mysql.CoopAW">
+        SELECT
+            actor_name AS actor,
+            writer_name AS writer,
+            count(writer.movie_id) cooptimes
+        FROM
+            (
+                SELECT
+                    *
+                FROM
+                    actor
+                WHERE
+                    actor_name = #{actor}
+            ) AS T
+                NATURAL JOIN writer
+        GROUP BY
+            writer_name
+        ORDER BY
+            cooptimes DESC
+    </select>
+    <select id="getCoopDWByDirector" resultType="com.example.backend1.entity.mysql.CoopDW">
+        SELECT
+            director_name AS director,
+            writer_name AS writer,
+            count(writer.movie_id) cooptimes
+        FROM
+            (
+                SELECT
+                    *
+                FROM
+                    director
+                WHERE
+                    director_name = #{director}
+            ) AS T
+                NATURAL JOIN writer
+        GROUP BY
+            writer_name
+        ORDER BY
+            cooptimes DESC
+    </select>
 
     <select id="getMoviesByGenres" resultType="com.example.backend1.entity.mysql.MovieDetail">
         SELECT
@@ -280,6 +320,118 @@
                 NATURAL JOIN movie
         ORDER BY reviewNum DESC
             LIMIT 20
+    </select>
+    <select id="getMoviesByCombination"  resultType="com.example.backend1.entity.mysql.MovieDetail">
+        SELECT
+        movie_id,
+        title,
+        runtime,
+        releasedate
+        FROM
+        movie
+        <where>
+            <if test="year != null">
+                YEAR (releasedate) = #{year}
+            </if>
+            <if test="month != null">
+                AND MONTH (releasedate) = #{month}
+            </if>
+            <if test="quarter != null">
+                AND QUARTER (releasedate) = #{quarter}
+            </if>
+            <if test="title != null">
+                AND title like CONCAT('%',#{title},'%')
+            </if>
+            <if test="actor != null">
+                AND movie_id in (
+                SELECT
+                movie_id
+                FROM
+                movie_actor
+                WHERE
+                actor_name = #{actor}
+                )
+            </if>
+            <if test="genres != null">
+                AND movie_id in (
+                SELECT
+                movie_id
+                FROM
+                genres
+                WHERE
+                genres_name = #{genres}
+                )
+            </if>
+            <if test="director != null">
+                AND movie_id in (
+                SELECT
+                movie_id
+                FROM
+                movie_director
+                WHERE
+                director_name = #{director}
+                )
+            </if>
+            <if test="score != null">
+                AND movie_id in (
+                SELECT
+                movie_id
+                FROM
+                (
+                SELECT
+                movie_id,
+                AVG(score) AS avgScore
+                FROM
+                review
+                GROUP BY
+                movie_id
+                HAVING
+                avgScore &gt; #{score} OR avgScore = #{score}
+                ) AS movieScore
+                NATURAL JOIN movie
+                )
+            </if>
+        </where>
+    </select>
+    <select id="getReviewsByMovie" resultType="com.example.backend1.entity.mysql.Review">
+        SELECT
+            reviewer_id AS reviewerID,
+            reviewer_name AS reviewerName,
+            review_time AS reviewTime,
+            score,
+            text,
+            summary
+        FROM
+            review
+        WHERE
+                movie_id IN (
+                SELECT
+                    movie_id
+                FROM
+                    movie
+                WHERE
+                    title = #{title}
+            )
+    </select>
+    <select id="getMoviesWithoutNegReview" resultType="com.example.backend1.entity.mysql.MovieDetail">
+        SELECT
+            movie_id,
+            title,
+            runtime,
+            releasedate
+        FROM
+            movie
+        WHERE
+                movie_id NOT IN (
+                SELECT
+                    movie_id
+                FROM
+                    review
+                WHERE
+                    helpness = "neg"
+                GROUP BY
+                    movie_id
+            )
     </select>
 
 </mapper>
