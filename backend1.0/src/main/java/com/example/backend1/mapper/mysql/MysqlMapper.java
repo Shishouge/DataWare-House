@@ -27,17 +27,17 @@ public interface MysqlMapper {
 
     List<MovieDetail> getMoviesLeadingByActor(String actorName);
 
-    List<CoopAA> getCoopAATop();
+    List<Coop> getCoopAATop();
 
-    List<CoopAD> getCoopADTop();
+    List<Coop> getCoopADTop();
 
-    List<CoopAW> getCoopAWTop();
+    List<Coop> getCoopAWTop();
 
-    List<CoopDW> getCoopDWTop();
+    List<Coop> getCoopDWTop();
 
-    List<CoopAD> getCoopADByActor(String actor);
+    List<Coop> getCoopADByActor(String actor);
 
-    List<CoopAA> getCoopAAByActor(String actor);
+    List<Coop> getCoopAAByActor(String actor);
 
     List<MovieDetail> getMoviesByGenres(String genres);
 
@@ -56,9 +56,9 @@ public interface MysqlMapper {
 
     List<MovieDetail> getMoviesWithoutNegReview();
 
-    List<CoopAW> getCoopAWByActor(String actor);
+    List<Coop> getCoopAWByActor(String actor);
 
-    List<CoopDW> getCoopDWByDirector(String director);
+    List<Coop> getCoopDWByDirector(String director);
 
     List<MovieVersion> getVersionByMovie(String title);
 

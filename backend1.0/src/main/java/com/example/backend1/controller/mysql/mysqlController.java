@@ -170,7 +170,7 @@ public class mysqlController {
     @ApiOperation("Search for the top 20 groups of actors and actresses that worked together the most")
     public Helper getCoopAATop(){
         long startTime = System.nanoTime();
-        List<CoopAA> coopAAList = mysqlMapper.getCoopAATop();
+        List<Coop> coopAAList = mysqlMapper.getCoopAATop();
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(coopAAList,millsecs);
     }
@@ -180,7 +180,7 @@ public class mysqlController {
     @ApiOperation("Search for the top 20 groups of actors and directors that worked together the most")
     public Helper getCoopADTop(){
         long startTime = System.nanoTime();
-        List<CoopAD> coopADList = mysqlMapper.getCoopADTop();
+        List<Coop> coopADList = mysqlMapper.getCoopADTop();
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(coopADList,millsecs);
     }
@@ -190,7 +190,7 @@ public class mysqlController {
     @ApiOperation("Search for the top 20 groups of actors and writers that worked together the most")
     public Helper getCoopAWTop(){
         long startTime = System.nanoTime();
-        List<CoopAW> coopAWList = mysqlMapper.getCoopAWTop();
+        List<Coop> coopAWList = mysqlMapper.getCoopAWTop();
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(coopAWList,millsecs);
     }
@@ -200,7 +200,7 @@ public class mysqlController {
     @ApiOperation("Search for the top 20 groups of directors and writers that worked together the most")
     public Helper getCoopDWTop(){
         long startTime = System.nanoTime();
-        List<CoopDW> coopDWList = mysqlMapper.getCoopDWTop();
+        List<Coop> coopDWList = mysqlMapper.getCoopDWTop();
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(coopDWList,millsecs);
     }
@@ -214,7 +214,7 @@ public class mysqlController {
     public Helper getCoopADByActor(@RequestParam(value = "name") String actor){
 //        actor = "Todd Haberkorn";
         long startTime = System.nanoTime();
-        List<CoopAD> coopADList = mysqlMapper.getCoopADByActor(actor);
+        List<Coop> coopADList = mysqlMapper.getCoopADByActor(actor);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(coopADList,millsecs);
     }
@@ -229,7 +229,7 @@ public class mysqlController {
     public Helper getCoopAAByActor(@RequestParam(value = "name") String actor){
 //        actor = "Todd Haberkorn";
         long startTime = System.nanoTime();
-        List<CoopAA> coopAAList = mysqlMapper.getCoopAAByActor(actor);
+        List<Coop> coopAAList = mysqlMapper.getCoopAAByActor(actor);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(coopAAList,millsecs);
     }
@@ -241,7 +241,7 @@ public class mysqlController {
     })
     public Helper getCoopAWByActor(@RequestParam(value = "name") String actor){
         long startTime = System.nanoTime();
-        List<CoopAW> coopAWList = mysqlMapper.getCoopAWByActor(actor);
+        List<Coop> coopAWList = mysqlMapper.getCoopAWByActor(actor);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(coopAWList,millsecs);
     }
@@ -253,7 +253,7 @@ public class mysqlController {
     })
     public Helper getCoopDWByDirector(@RequestParam(value = "name") String director){
         long startTime = System.nanoTime();
-        List<CoopDW> coopDWList = mysqlMapper.getCoopDWByDirector(director);
+        List<Coop> coopDWList = mysqlMapper.getCoopDWByDirector(director);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(coopDWList,millsecs);
     }

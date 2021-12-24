@@ -106,10 +106,10 @@
           AND isleading = "True"
     </select>
 
-    <select id="getCoopAATop" resultType="com.example.backend1.entity.mysql.CoopAA">
+    <select id="getCoopAATop" resultType="com.example.backend1.entity.mysql.Coop">
         SELECT
-            actor.actor_name AS actor1,
-            temp.actor_name AS actor2,
+            actor.actor_name AS name1,
+            temp.actor_name AS name2,
             cooptimes
         FROM
             (
@@ -132,10 +132,10 @@
                 LEFT JOIN actor AS temp ON temp.actor_id = result.actor_id2
             LIMIT 20
     </select>
-    <select id="getCoopADTop" resultType="com.example.backend1.entity.mysql.CoopAD">
+    <select id="getCoopADTop" resultType="com.example.backend1.entity.mysql.Coop">
         SELECT
-            search.actor_name AS actor,
-            search.director_name AS director,
+            search.actor_name AS name1,
+            search.director_name AS name2,
             count(search.movie_id1) cooptimes
         FROM
             (
@@ -168,10 +168,10 @@
             cooptimes DESC
             LIMIT 20
     </select>
-    <select id="getCoopAWTop" resultType="com.example.backend1.entity.mysql.CoopAW">
+    <select id="getCoopAWTop" resultType="com.example.backend1.entity.mysql.Coop">
         SELECT
-            search.actor_name AS actor,
-            search.writer_name AS writer,
+            search.actor_name AS name1,
+            search.writer_name AS name2,
             count(search.movie_id1) cooptimes
         FROM
             (
@@ -204,10 +204,10 @@
             cooptimes DESC
             LIMIT 20
     </select>
-    <select id="getCoopDWTop" resultType="com.example.backend1.entity.mysql.CoopDW">
+    <select id="getCoopDWTop" resultType="com.example.backend1.entity.mysql.Coop">
         SELECT
-            search.director_name AS director,
-            search.writer_name AS writer,
+            search.director_name AS name1,
+            search.writer_name AS name2,
             count(search.movie_id1) cooptimes
         FROM
             (
@@ -240,10 +240,10 @@
             cooptimes DESC
             LIMIT 20
     </select>
-    <select id="getCoopADByActor" resultType="com.example.backend1.entity.mysql.CoopAD">
+    <select id="getCoopADByActor" resultType="com.example.backend1.entity.mysql.Coop">
         SELECT
-            actor_name AS actor,
-            director_name AS director,
+            actor_name AS name1,
+            director_name AS name2,
             cooptimes
         FROM
             (
@@ -268,10 +268,10 @@
             ) AS COOPTEMP
                 NATURAL JOIN director
     </select>
-    <select id="getCoopAAByActor" resultType="com.example.backend1.entity.mysql.CoopAA">
+    <select id="getCoopAAByActor" resultType="com.example.backend1.entity.mysql.Coop">
         SELECT
-            COOPTEMP.actor_name AS actor1,
-            actor.actor_name AS actor2,
+            COOPTEMP.actor_name AS name1,
+            actor.actor_name AS name2,
             cooptimes
         FROM
             (
@@ -306,10 +306,10 @@
                 JOIN actor ON COOPTEMP.actor_id = actor.actor_id
         ORDER BY cooptimes DESC
     </select>
-    <select id="getCoopAWByActor" resultType="com.example.backend1.entity.mysql.CoopAW">
+    <select id="getCoopAWByActor" resultType="com.example.backend1.entity.mysql.Coop">
         SELECT
-            actor_name AS actor,
-            writer_name AS writer,
+            actor_name AS name1,
+            writer_name AS name2,
             cooptimes
         FROM
             (
@@ -334,10 +334,10 @@
             ) AS COOPTEMP
                 NATURAL JOIN writer
     </select>
-    <select id="getCoopDWByDirector" resultType="com.example.backend1.entity.mysql.CoopDW">
+    <select id="getCoopDWByDirector" resultType="com.example.backend1.entity.mysql.Coop">
         SELECT
-            director_name AS director,
-            writer_name AS writer,
+            director_name AS name1,
+            writer_name AS name2,
             cooptimes
         FROM
             (
