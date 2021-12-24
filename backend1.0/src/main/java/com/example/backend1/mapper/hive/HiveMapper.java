@@ -54,4 +54,12 @@ public interface HiveMapper {
             Integer year , Integer month , Integer quarter,
             String title , String actor, String director ,
             String genres, Integer score);
+
+    List<HiveReview> getHiveReviewsByMovie(String title);
+
+    List<HiveMovieDetail> getHiveMoviesWithoutNegReview();
+
+    List<HiveCoopAW> getHiveCoopAWByActor(String actor);
+
+    List<HiveCoopDW> getHiveCoopDWByDirector(String director);
 }

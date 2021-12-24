@@ -137,7 +137,7 @@ public class hiveController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "name",value = "actorname : Morgan Freeman")
     })
-    public HiveHelper getMoviesLeadingByActor(@RequestParam(value = "name") String name){
+    public HiveHelper getHiveMoviesLeadingByActor(@RequestParam(value = "name") String name){
 //        name = "Morgan Freeman";
         long startTime = System.nanoTime();
         List<HiveMovieDetail> movieDetails = hiveMapper.getHiveMoviesLeadingByActor(name);
@@ -148,7 +148,7 @@ public class hiveController {
     // Search for the top 20 groups of actors and actresses that worked together the most
     @RequestMapping(value = "/getCoopAATopFromHive",method = RequestMethod.GET)
     @ApiOperation("Search for the top 20 groups of actors and actresses that worked together the most")
-    public HiveHelper getCoopAATop(){
+    public HiveHelper getHiveCoopAATop(){
         long startTime = System.nanoTime();
         List<HiveCoopAA> coopAAList = hiveMapper.getHiveCoopAATop();
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -158,7 +158,7 @@ public class hiveController {
     // Search for the top 20 groups of actors and directors that worked together the most
     @RequestMapping(value = "/getCoopADTopFromHive",method = RequestMethod.GET)
     @ApiOperation("Search for the top 20 groups of actors and directors that worked together the most")
-    public HiveHelper getCoopADTop(){
+    public HiveHelper getHiveCoopADTop(){
         long startTime = System.nanoTime();
         List<HiveCoopAD> coopADList = hiveMapper.getHiveCoopADTop();
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -168,7 +168,7 @@ public class hiveController {
     // Search for the top 20 groups of actors and writers that worked together the most
     @RequestMapping(value = "/getCoopAWTopFromHive",method = RequestMethod.GET)
     @ApiOperation("Search for the top 20 groups of actors and writers that worked together the most")
-    public HiveHelper getCoopAWTop(){
+    public HiveHelper getHiveCoopAWTop(){
         long startTime = System.nanoTime();
         List<HiveCoopAW> coopAWList = hiveMapper.getHiveCoopAWTop();
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -178,7 +178,7 @@ public class hiveController {
     // Search for the top 20 groups of directors and writers that worked together the most
     @RequestMapping(value = "/getCoopDWTopFromHive",method = RequestMethod.GET)
     @ApiOperation("Search for the top 20 groups of directors and writers that worked together the most")
-    public HiveHelper getCoopDWTop(){
+    public HiveHelper getHiveCoopDWTop(){
         long startTime = System.nanoTime();
         List<HiveCoopDW> coopDWList = hiveMapper.getHiveCoopDWTop();
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -191,7 +191,7 @@ public class hiveController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "name",value = "actorname : Todd Haberkorn")
     })
-    public HiveHelper getCoopADByActor(@RequestParam(value = "name") String actor){
+    public HiveHelper getHiveCoopADByActor(@RequestParam(value = "name") String actor){
 //        actor = "Todd Haberkorn";
         long startTime = System.nanoTime();
         List<HiveCoopAD> coopADList = hiveMapper.getHiveCoopADByActor(actor);
@@ -206,7 +206,7 @@ public class hiveController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "name",value = "actorname : Todd Haberkorn")
     })
-    public HiveHelper getCoopAAByActor(@RequestParam(value = "name") String actor){
+    public HiveHelper getHiveCoopAAByActor(@RequestParam(value = "name") String actor){
 //        actor = "Todd Haberkorn";
         long startTime = System.nanoTime();
         List<HiveCoopAA> coopAAList = hiveMapper.getHiveCoopAAByActor(actor);
@@ -217,7 +217,7 @@ public class hiveController {
     // Search for movies by a certain genres
     @RequestMapping(value = "/getMoviesByGenresFromHive",method = RequestMethod.GET)
     @ApiOperation("Search for movies by a certain genres")
-    public HiveHelper getMoviesByGenres(String genres){
+    public HiveHelper getHiveMoviesByGenres(String genres){
 //        genres = "Action";
         long startTime = System.nanoTime();
         List<HiveMovieDetail> movieDetails = hiveMapper.getHiveMoviesByGenres(genres);
@@ -228,7 +228,7 @@ public class hiveController {
     // Search for genres ranking based on the num of movies
     @RequestMapping(value = "/getGenresRankingFromHive",method = RequestMethod.GET)
     @ApiOperation("Search for genres ranking based on the num of movies")
-    public HiveHelper getGenresRanking(){
+    public HiveHelper getHiveGenresRanking(){
         long startTime = System.nanoTime();
         List<HiveGenres> genresList = hiveMapper.getHiveGenresRanking();
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -239,7 +239,7 @@ public class hiveController {
     // Search for movies by score
     @RequestMapping(value = "/getMoviesByScoreFromHive",method = RequestMethod.GET)
     @ApiOperation("Search for movies by score")
-    public HiveHelper getMoviesByScore(Integer score){
+    public HiveHelper getHiveMoviesByScore(Integer score){
 //        score = 4;
         long startTime = System.nanoTime();
         List<HiveMovieScore> movies = hiveMapper.getHiveMoviesByScore(score);
@@ -250,7 +250,7 @@ public class hiveController {
     // Search for the top 20 movies receiving most reviews
     @RequestMapping(value = "/getMoviesByReviewNumFromHive",method = RequestMethod.GET)
     @ApiOperation("Search for the top 20 movies receiving most reviews")
-    public HiveHelper getMoviesByReviewNum(){
+    public HiveHelper getHiveMoviesByReviewNum(){
         long startTime = System.nanoTime();
         List<HiveMovieReview> moives = hiveMapper.getHiveMoviesByReviewNum();
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
@@ -273,5 +273,47 @@ public class hiveController {
         List<HiveMovieDetail> movieDetails = hiveMapper.getHiveMoviesByCombination(year, month, quarter, title, actor, director, genres,score);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new HiveHelper(movieDetails,millsecs);
+    }
+
+    @RequestMapping(value = "/getReviewsByMovieFromHive",method = RequestMethod.GET)
+    @ApiOperation("Search for reviews of a certain movie")
+    public HiveHelper getHiveReviewsByMovie(String title){
+        long startTime = System.nanoTime();
+        List<HiveReview> reviewList = hiveMapper.getHiveReviewsByMovie(title);
+        double millsecs = (System.nanoTime() - startTime) / 1000000.0;
+        return new HiveHelper(reviewList,millsecs);
+    }
+
+    @RequestMapping(value = "/getMoviesWithoutNegReviewFromHive",method = RequestMethod.GET)
+    @ApiOperation("Search for movies without negative review")
+    public HiveHelper getHiveMoviesWithoutNegReview(){
+        long startTime = System.nanoTime();
+        List<HiveMovieDetail> movieDetails =hiveMapper.getHiveMoviesWithoutNegReview();
+        double millsecs = (System.nanoTime() - startTime) / 1000000.0;
+        return new HiveHelper(movieDetails,millsecs);
+    }
+
+    @RequestMapping(value = "/getCoopAWByActorFromHive",method = RequestMethod.GET)
+    @ApiOperation("Search for the writers that worked together with a certain actor")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "name",value = "actorname : Todd Haberkorn")
+    })
+    public HiveHelper getHiveCoopAWByActor(@RequestParam(value = "name") String actor){
+        long startTime = System.nanoTime();
+        List<HiveCoopAW> coopAWList = hiveMapper.getHiveCoopAWByActor(actor);
+        double millsecs = (System.nanoTime() - startTime) / 1000000.0;
+        return new HiveHelper(coopAWList,millsecs);
+    }
+
+    @RequestMapping(value = "/getCoopDWByDirectorFromHive",method = RequestMethod.GET)
+    @ApiOperation("Search for the writers that worked together with a certain director")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "name",value = "director : ")
+    })
+    public HiveHelper getHiveCoopDWByDirector(@RequestParam(value = "name") String director){
+        long startTime = System.nanoTime();
+        List<HiveCoopDW> coopDWList = hiveMapper.getHiveCoopDWByDirector(director);
+        double millsecs = (System.nanoTime() - startTime) / 1000000.0;
+        return new HiveHelper(coopDWList,millsecs);
     }
 }

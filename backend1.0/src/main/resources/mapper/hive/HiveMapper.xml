@@ -761,4 +761,88 @@ ORDER BY
             </if>
         </where>
     </select>
+
+    <select id="getHiveReviewsByMovie" resultType="com.example.backend1.entity.hive.HiveReview">
+        SELECT
+            reviewer_id AS reviewerID,
+            reviewer_name AS reviewerName,
+            review_time AS reviewTime,
+            score,
+            text,
+            summary
+        FROM
+            review
+        WHERE
+                movie_id IN (
+                SELECT
+                    movie_id
+                FROM
+                    movie
+                WHERE
+                    title = #{title}
+            )
+    </select>
+
+    <select id="getHiveMoviesWithoutNegReview" resultType="com.example.backend1.entity.hive.HiveMovieDetail">
+        SELECT
+            movie_id,
+            title,
+            runtime,
+            releasedate
+        FROM
+            movie
+        WHERE
+                movie_id NOT IN (
+                SELECT
+                    movie_id
+                FROM
+                    review
+                WHERE
+                    helpness = "neg"
+                GROUP BY
+                    movie_id
+            )
+    </select>
+
+    <select id="getHiveCoopAWByActor" resultType="com.example.backend1.entity.hive.HiveCoopAW">
+        SELECT
+            actor_name AS actor,
+            writer_name AS writer,
+            count(writer.movie_id) cooptimes
+        FROM
+            (
+                SELECT
+                    *
+                FROM
+                    actor
+                WHERE
+                    actor_name = #{actor}
+            ) AS T
+                NATURAL JOIN writer
+        GROUP BY
+            writer_name
+        ORDER BY
+            cooptimes DESC
+    </select>
+
+    <select id="getHiveCoopDWByDirector" resultType="com.example.backend1.entity.hive.HiveCoopDW">
+        SELECT
+            director_name AS director,
+            writer_name AS writer,
+            count(writer.movie_id) cooptimes
+        FROM
+            (
+                SELECT
+                    *
+                FROM
+                    director
+                WHERE
+                    director_name = #{director}
+            ) AS T
+                NATURAL JOIN writer
+        GROUP BY
+            writer_name
+        ORDER BY
+            cooptimes DESC
+    </select>
 </mapper>
