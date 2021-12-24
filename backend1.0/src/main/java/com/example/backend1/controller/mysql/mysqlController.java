@@ -227,11 +227,35 @@ public class mysqlController {
             @ApiImplicitParam(name = "name",value = "actorname : Todd Haberkorn")
     })
     public Helper getCoopAAByActor(@RequestParam(value = "name") String actor){
-        actor = "Todd Haberkorn";
+//        actor = "Todd Haberkorn";
         long startTime = System.nanoTime();
         List<CoopAA> coopAAList = mysqlMapper.getCoopAAByActor(actor);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(coopAAList,millsecs);
+    }
+
+    @RequestMapping(value = "/getCoopAWByActorFromD1",method = RequestMethod.GET)
+    @ApiOperation("Search for the writers that worked together with a certain actor")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "name",value = "actorname : Todd Haberkorn")
+    })
+    public Helper getCoopAWByActor(@RequestParam(value = "name") String actor){
+        long startTime = System.nanoTime();
+        List<CoopAW> coopAWList = mysqlMapper.getCoopAWByActor(actor);
+        double millsecs = (System.nanoTime() - startTime) / 1000000.0;
+        return new Helper(coopAWList,millsecs);
+    }
+
+    @RequestMapping(value = "/getCoopDWByDirectorFromD1",method = RequestMethod.GET)
+    @ApiOperation("Search for the writers that worked together with a certain director")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "name",value = "director : ")
+    })
+    public Helper getCoopDWByDirector(@RequestParam(value = "name") String director){
+        long startTime = System.nanoTime();
+        List<CoopDW> coopDWList = mysqlMapper.getCoopDWByDirector(director);
+        double millsecs = (System.nanoTime() - startTime) / 1000000.0;
+        return new Helper(coopDWList,millsecs);
     }
 
     // Search for movies by a certain genres
@@ -277,7 +301,7 @@ public class mysqlController {
         return new Helper(moives,millsecs);
     }
 
-    @RequestMapping(value = "/getMoviesByCombination",method = RequestMethod.GET)
+    @RequestMapping(value = "/getMoviesByCombinationFromD1",method = RequestMethod.GET)
     @ApiOperation("Search for movies by combination conditions")
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "actor", value = "Todd Haberkorn"),
@@ -286,12 +310,32 @@ public class mysqlController {
     })
     public Helper getMoviesByCombination(
             Integer year , Integer month , Integer quarter,
-            String title , @RequestParam(value = "actor") String actor, @RequestParam(value = "director") String director ,
-            @RequestParam(value = "genres") String genres , Integer score
+            String title , @RequestParam(value = "actor",required = false) String actor, @RequestParam(value = "director",required = false) String director ,
+            @RequestParam(value = "genres",required = false) String genres , Integer score
     ){
         long startTime = System.nanoTime();
         List<MovieDetail> movieDetails = mysqlMapper.getMoviesByCombination(year, month, quarter, title, actor, director, genres,score);
         double millsecs = (System.nanoTime() - startTime) / 1000000.0;
         return new Helper(movieDetails,millsecs);
     }
+
+    @RequestMapping(value = "/getReviewsByMovieFromD1",method = RequestMethod.GET)
+    @ApiOperation("Search for reviews of a certain movie")
+    public Helper getReviewsByMovie(String title){
+        long startTime = System.nanoTime();
+        List<Review> reviewList = mysqlMapper.getReviewsByMovie(title);
+        double millsecs = (System.nanoTime() - startTime) / 1000000.0;
+        return new Helper(reviewList,millsecs);
+    }
+
+    @RequestMapping(value = "/getMoviesWithoutNegReviewFromD1",method = RequestMethod.GET)
+    @ApiOperation("Search for movies without negative review")
+    public Helper getMoviesWithoutNegReview(){
+        long startTime = System.nanoTime();
+        List<MovieDetail> movieDetails = mysqlMapper.getMoviesWithoutNegReview();
+        double millsecs = (System.nanoTime() - startTime) / 1000000.0;
+        return new Helper(movieDetails,millsecs);
+    }
+
+
 }

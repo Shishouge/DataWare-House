@@ -46,4 +46,17 @@ public interface MysqlMapper2 {
     List<MovieScore> getMoviesByScore(Integer score);
 
     List<MovieReview> getMoviesByReviewNum();
+
+    List<MovieDetail> getMoviesByCombination(
+            Integer year , Integer month , Integer quarter,
+            String title , String actor, String director ,
+            String genres, Integer score);
+
+    List<Review> getReviewsByMovie(String title);
+
+    List<MovieDetail> getMoviesWithoutNegReview();
+
+    List<CoopAW> getCoopAWByActor(String actor);
+
+    List<CoopDW> getCoopDWByDirector(String director);
 }
