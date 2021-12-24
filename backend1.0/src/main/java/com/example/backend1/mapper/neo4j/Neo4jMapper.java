@@ -14,11 +14,13 @@ public interface Neo4jMapper {
     List<Coopration> getTopCoopAA();
     List<Coopration> getTopCoopAD();
     List<Coopration> getTopCoopAW();
+    List<Coopration> getTopCoopDW();
 
     //Starting point
     List<Coopration> getCoopAA(String name);
     List<Coopration> getCoopAD(String name);
     List<Coopration> getCoopAW(String name);
+    List<Coopration> getCoopDW(String name);
 
 
 }
