@@ -4,6 +4,9 @@ package com.example.backend1.controller.neo4j;
 import com.example.backend1.entity.neo4j.CoopDetail;
 import com.example.backend1.entity.neo4j.Coopration;
 import com.example.backend1.entity.neo4j.Helper;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.backend1.mapper.neo4j.Neo4jMapper;
@@ -16,7 +19,7 @@ import java.util.List;
 public class neo4jController {
     @Autowired(required = false)
     Neo4jMapper neo4jMapper;
-
+    @ApiOperation("无起点搜索演员合作关系前20")
     @RequestMapping(value = "/getTopCoopAA", method = RequestMethod.GET)
     public Helper getTopCoopAA() {
         long startTime = System.nanoTime();
@@ -35,6 +38,7 @@ public class neo4jController {
         return helper;
     }
 
+    @ApiOperation("无起点搜索演员和导演合作关系前20")
     @RequestMapping(value = "/getTopCoopAD",method = RequestMethod.GET)
     public Helper getTopCoopAD() {
         long startTime = System.nanoTime();
@@ -52,6 +56,7 @@ public class neo4jController {
         return helper;
     }
 
+    @ApiOperation("无起点搜索演员和编剧合作关系前20")
     @RequestMapping(value = "/getTopCoopAW",method = RequestMethod.GET)
     public Helper getTopCoopAW() {
         long startTime = System.nanoTime();
@@ -68,6 +73,11 @@ public class neo4jController {
         Helper helper=new Helper(result,millsecs);
         return helper;
     }
+
+    @ApiOperation("有起点搜索演员合作关系前20")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="name",value = "起点演员姓名")
+    })
 
     @RequestMapping(value = "/getTopCoopAAByName",method = RequestMethod.GET)
     public Helper getTopCoopAAByName(String name) {
@@ -86,6 +96,10 @@ public class neo4jController {
         return helper;
     }
 
+    @ApiOperation("有起点搜索演员和导演合作关系前20")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="name",value = "起点演员姓名")
+    })
     @RequestMapping(value = "/getTopCoopADByName",method = RequestMethod.GET)
     public Helper getTopCoopADByName(String name) {
         long startTime = System.nanoTime();
@@ -103,6 +117,10 @@ public class neo4jController {
         return helper;
     }
 
+    @ApiOperation("有起点搜索演员和编剧合作关系前20")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="name",value = "起点演员姓名")
+    })
     @RequestMapping(value = "/getTopCoopAWByName",method = RequestMethod.GET)
     public Helper getTopCoopAWByName(String name) {
         long startTime = System.nanoTime();
