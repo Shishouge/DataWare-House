@@ -30,7 +30,7 @@ public interface HiveMapper {
 
     List<HiveMovieDetail> getHiveMoviesLeadingByActor(String actorName);
 
-    List<HiveCoopAA> getHiveCoopAATop();
+//    List<HiveCoopAA> getHiveCoopAATop();
 
 //    List<HiveCoopAD> getHiveCoopADTop();
 //

@@ -145,15 +145,15 @@ public class hiveController {
         return new HiveHelper(movieDetails,millsecs);
     }
 
-    // Search for the top 20 groups of actors and actresses that worked together the most
-    @RequestMapping(value = "/getCoopAATopFromHive",method = RequestMethod.GET)
-    @ApiOperation("Search for the top 20 groups of actors and actresses that worked together the most")
-    public HiveHelper getHiveCoopAATop(){
-        long startTime = System.nanoTime();
-        List<HiveCoopAA> coopAAList = hiveMapper.getHiveCoopAATop();
-        double millsecs = (System.nanoTime() - startTime) / 1000000.0;
-        return new HiveHelper(coopAAList,millsecs);
-    }
+//    // Search for the top 20 groups of actors and actresses that worked together the most
+//    @RequestMapping(value = "/getCoopAATopFromHive",method = RequestMethod.GET)
+//    @ApiOperation("Search for the top 20 groups of actors and actresses that worked together the most")
+//    public HiveHelper getHiveCoopAATop(){
+//        long startTime = System.nanoTime();
+//        List<HiveCoopAA> coopAAList = hiveMapper.getHiveCoopAATop();
+//        double millsecs = (System.nanoTime() - startTime) / 1000000.0;
+//        return new HiveHelper(coopAAList,millsecs);
+//    }
 //
 //    // Search for the top 20 groups of actors and directors that worked together the most
 //    @RequestMapping(value = "/getCoopADTopFromHive",method = RequestMethod.GET)
