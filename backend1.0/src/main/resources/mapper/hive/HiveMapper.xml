@@ -3,24 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.backend1.mapper.hive.HiveMapper">
-<!--    <select id="getAllActors" resultType="com.example.backend1.entity.hive.Test">-->
-<!--        select actor_name-->
-<!--        from actor-->
-<!--    </select>-->
 
     <select id="getHiveMoviesByYear" resultType="com.example.backend1.entity.hive.HiveMovieDetail">
---         SELECT             movie_id,
---                            title,
---                            runtime,
---                            releasedate
---         FROM movie
---         WHERE year (releasedate) = #{year}
-SELECT             movie_id,
-                   title,
-                   runtime,
-                   releasedate
-FROM movie
-WHERE year(to_date(from_unixtime(UNIX_TIMESTAMP(releasedate,'yyyy-MM-dd')))) = #{year}
+        SELECT             movie_id,
+                           title,
+                           runtime,
+                           releasedate
+        FROM movie_orc
+        WHERE year(to_date(from_unixtime(UNIX_TIMESTAMP(releasedate,'yyyy-MM-dd')))) = #{year}
     </select>
 
     <select id="getHiveMoviesByYM" resultType="com.example.backend1.entity.hive.HiveMovieDetail">
@@ -30,7 +20,7 @@ WHERE year(to_date(from_unixtime(UNIX_TIMESTAMP(releasedate,'yyyy-MM-dd')))) = #
             runtime,
             releasedate
         FROM
-            movie
+            movie_orc
         WHERE
             year (to_date(from_unixtime(UNIX_TIMESTAMP(releasedate,'yyyy-MM-dd')))) = #{year}
           AND month (to_date(from_unixtime(UNIX_TIMESTAMP(releasedate,'yyyy-MM-dd')))) = #{month}
@@ -43,7 +33,7 @@ WHERE year(to_date(from_unixtime(UNIX_TIMESTAMP(releasedate,'yyyy-MM-dd')))) = #
             runtime,
             releasedate
         FROM
-            movie
+            movie_orc
         WHERE
             year (to_date(from_unixtime(UNIX_TIMESTAMP(releasedate,'yyyy-MM-dd')))) = #{year}
           AND QUARTER (to_date(from_unixtime(UNIX_TIMESTAMP(releasedate,'yyyy-MM-dd')))) = #{quarter}
@@ -54,7 +44,7 @@ WHERE year(to_date(from_unixtime(UNIX_TIMESTAMP(releasedate,'yyyy-MM-dd')))) = #
                            title,
                            runtime,
                            releasedate
-        FROM movie
+        FROM movie_orc
         WHERE title like CONCAT(#{title},'%')
     </select>
 
@@ -64,555 +54,251 @@ WHERE year(to_date(from_unixtime(UNIX_TIMESTAMP(releasedate,'yyyy-MM-dd')))) = #
             title,
             runtime,
             releasedate
-        FROM movie
+        FROM movie_orc
         WHERE title = #{title}
     </select>
 
     <select id="getHiveMoviesByDirector" resultType="com.example.backend1.entity.hive.HiveMovieDetail">
---         SELECT
---             movie_id,
---             title,
---             runtime,
---             releasedate
---         FROM
---             movie
---                 NATURAL JOIN movie_director
---                 NATURAL JOIN director
---         WHERE
---             director_name = #{directorName}
-
-SELECT
-    movie_id,
-    title,
-    runtime,
-    releasedate
-FROM
-    movie_director
-WHERE
-    director_name = #{directorName}
+        SELECT
+            movie_id,
+            title,
+            runtime,
+            releasedate
+        FROM
+            movie_director_orc
+        WHERE
+            director_name = #{directorName}
     </select>
 
     <select id="getHiveMoviesByWriter" resultType="com.example.backend1.entity.hive.HiveMovieDetail">
---         SELECT
---             movie_id,
---             title,
---             runtime,
---             releasedate
---         FROM
---             movie_writer
---                 NATURAL JOIN movie
---                 NATURAL JOIN writer
---         WHERE
---             writer_name = #{writerName}
-SELECT
-    movie_id,
-    title,
-    runtime,
-    releasedate
-FROM
-    movie_writer
-WHERE
-    writer_name = #{writerName}
+        SELECT
+            movie_id,
+            title,
+            runtime,
+            releasedate
+        FROM
+            movie_writer_orc
+        WHERE
+            writer_name = #{writerName}
     </select>
 
     <select id="getHiveMoviesByActor" resultType="com.example.backend1.entity.hive.HiveMovieDetail">
---         SELECT
---             movie_id,
---             title,
---             runtime,
---             releasedate
---         FROM
---             movie_actor
---                 NATURAL JOIN movie
---                 NATURAL JOIN actor
---         WHERE
---             actor_name = #{actorName}
-SELECT
-    movie_id,
-    title,
-    runtime,
-    releasedate
-FROM
-    movie_actor
-WHERE
-    actor_name = #{actorName}
+        SELECT
+            movie_id,
+            title,
+            runtime,
+            releasedate
+        FROM
+            movie_actor_orc
+        WHERE
+            actor_name = #{actorName}
     </select>
 
     <select id="getHiveMoviesLeadingByActor" resultType="com.example.backend1.entity.hive.HiveMovieDetail">
---         SELECT
---             movie_id,
---             title,
---             runtime,
---             releasedate
---         FROM
---             movie_actor
---                 NATURAL JOIN movie
---                 NATURAL JOIN actor
---         WHERE
---             actor_name = #{actorName}
---           AND isleading = "True"
-SELECT
-    movie_id,
-    title,
-    runtime,
-    releasedate
-FROM
-    movie_actor
-WHERE
-    actor_name = #{actorName}
-  AND isleading = "True"
+        SELECT
+            movie_id,
+            title,
+            runtime,
+            releasedate
+        FROM
+            movie_actor_orc
+        WHERE
+            actor_name = #{actorName}
+          AND isleading = "True"
     </select>
 
     <select id="getHiveCoopAATop" resultType="com.example.backend1.entity.hive.HiveCoopAA">
---         SELECT
---             actor.actor_name AS actor1,
---             temp.actor_name AS actor2,
---             cooptimes
---         FROM
---             (
---                 SELECT
---                     D1.actor_id AS actor_id1,
---                     D2.actor_id AS actor_id2,
---                     count(D1.movie_id) cooptimes
---                 FROM
---                     movie_actor D1
---                         JOIN movie_actor D2 ON D1.movie_id = D2.movie_id
---                 WHERE
---                     D2.actor_id &lt; D1.actor_id
---                 GROUP BY
---                     D1.actor_id,
---                     D2.actor_id
---                 ORDER BY
---                     cooptimes DESC
---             ) AS result
---                 LEFT JOIN actor ON actor.actor_id = result.actor_id1
---                 LEFT JOIN actor AS temp ON temp.actor_id = result.actor_id2
---             LIMIT 20
-SELECT
-    actor.actor_name AS actor1,
-    temp.actor_name AS actor2,
-    cooptimes
-FROM
-    (
         SELECT
-            M1.actor_id AS actor_id1,
-            M2.actor_id AS actor_id2,
-            count(M1.movie_id) cooptimes
+            actor.actor_name AS actor1,
+            temp.actor_name AS actor2,
+            cooptimes
         FROM
-            actor AS M1
-                JOIN actor M2 ON M1.movie_id = M2.movie_id
-        WHERE
-            M2.actor_id &lt; M1.actor_id
-        GROUP BY
-            M1.actor_id,
-            M2.actor_id
-        ORDER BY
-            cooptimes DESC
+            (
+                SELECT
+                    M1.actor_id AS actor_id1,
+                    M2.actor_id AS actor_id2,
+                    count(M1.movie_id) cooptimes
+                FROM
+                    actor_orc AS M1 JOIN actor_orc M2 ON M1.movie_id = M2.movie_id
+                WHERE
+                    M2.actor_id &lt; M1.actor_id
+                GROUP BY
+                    M1.actor_id,
+                    M2.actor_id
+                ORDER BY
+                    cooptimes DESC
+                    LIMIT 20
+            )result
+                LEFT JOIN actor_orc ON actor.actor_id = result.actor_id1
+                LEFT JOIN actor_orc AS temp ON temp.actor_id = result.actor_id2
             LIMIT 20
-    ) AS result
-        LEFT JOIN actor ON actor.actor_id = result.actor_id1
-        LEFT JOIN actor AS temp ON temp.actor_id = result.actor_id2
-    LIMIT 20
     </select>
 
-    <select id="getHiveCoopADTop" resultType="com.example.backend1.entity.hive.HiveCoopAD">
---         SELECT
---             search.actor_name AS actor,
---             search.director_name AS director,
---             count(search.movie_id1) cooptimes
---         FROM
---             (
---                 SELECT
---                     *
---                 FROM
---                     (
---                         SELECT
---                             movie_id AS movie_id1,
---                             actor_name
---                         FROM
---                             movie_actor
---                                 NATURAL JOIN actor
---                     ) AS D1
---                         JOIN (
---                         SELECT
---                             movie_id AS movie_id2,
---                             director_name
---                         FROM
---                             movie_director
---                                 NATURAL JOIN director
---                     ) AS D2 ON D1.movie_id1 = D2.movie_id2
---             ) AS search
---         WHERE
---             search.director_name &lt; search.actor_name OR search.director_name &gt; search.actor_name
---         GROUP BY
---             search.actor_name,
---             search.director_name
---         ORDER BY
---             cooptimes DESC
---             LIMIT 20
+<!--    <select id="getHiveCoopADTop" resultType="com.example.backend1.entity.hive.HiveCoopAD">-->
+<!--        SELECT-->
+<!--            actor_name as actor,-->
+<!--            director_name as director,-->
+<!--            count(actor.movie_id) cooptimes-->
+<!--        FROM-->
+<!--            actor_orc-->
+<!--                NATURAL JOIN director_orc-->
+<!--        WHERE-->
+<!--            actor_name &lt; director_name OR actor_name &gt; director_name-->
+<!--        GROUP BY-->
+<!--            actor_name,-->
+<!--            director_name-->
+<!--        ORDER BY-->
+<!--            cooptimes DESC-->
+<!--            LIMIT 20-->
+<!--    </select>-->
 
-SELECT
-    actor_name as actor,
-    director_name as director,
-    count(movie_id) cooptimes
-FROM
-    actor
-        NATURAL JOIN director
-WHERE
-    actor_name &lt; director_name OR actor_name &gt; director_name
-GROUP BY
-    actor_name,
-    director_name
-ORDER BY
-    cooptimes DESC
-    LIMIT 20
-    </select>
+<!--    <select id="getHiveCoopAWTop" resultType="com.example.backend1.entity.hive.HiveCoopAW">-->
+<!--        SELECT-->
+<!--            actor_name as actor,-->
+<!--            writer_name as writer,-->
+<!--            count(actor_orc.movie_id) as cooptimes-->
+<!--        FROM-->
+<!--            actor_orc-->
+<!--                NATURAL JOIN writer_orc-->
+<!--        WHERE-->
+<!--            actor_name &lt; writer_name OR actor_name &gt; writer_name-->
+<!--        GROUP BY-->
+<!--            actor_name,-->
+<!--            writer_name-->
+<!--        ORDER BY-->
+<!--            cooptimes DESC-->
+<!--            LIMIT 20-->
+<!--    </select>-->
 
-    <select id="getHiveCoopAWTop" resultType="com.example.backend1.entity.hive.HiveCoopAW">
---         SELECT
---             search.actor_name AS actor,
---             search.writer_name AS writer,
---             count(search.movie_id1) cooptimes
---         FROM
---             (
---                 SELECT
---                     *
---                 FROM
---                     (
---                         SELECT
---                             movie_id AS movie_id1,
---                             writer_name
---                         FROM
---                             movie_writer
---                                 NATURAL JOIN writer
---                     ) AS D1
---                         JOIN (
---                         SELECT
---                             movie_id AS movie_id2,
---                             actor_name
---                         FROM
---                             movie_actor
---                                 NATURAL JOIN actor
---                     ) AS D2 ON D1.movie_id1 = D2.movie_id2
---             ) AS search
---         WHERE
---             search.actor_name &lt; search.writer_name OR search.actor_name &gt; search.writer_name
---         GROUP BY
---             search.writer_name,
---             search.actor_name
---         ORDER BY
---             cooptimes DESC
---             LIMIT 20
-SELECT
-    actor_name as actor,
-    writer_name as writer,
-    count(movie_id) cooptimes
-FROM
-    actor
-        NATURAL JOIN writer
-WHERE
-    actor_name &lt; writer_name OR actor_name &gt; writer_name
-GROUP BY
-    actor_name,
-    writer_name
-ORDER BY
-    cooptimes DESC
-    LIMIT 20
-    </select>
+<!--    <select id="getHiveCoopDWTop" resultType="com.example.backend1.entity.hive.HiveCoopDW">-->
+<!--        SELECT-->
+<!--            director_name AS director,-->
+<!--            writer_name AS writer,-->
+<!--            count(movie_id) cooptimes-->
+<!--        FROM-->
+<!--            director-->
+<!--                NATURAL JOIN writer-->
+<!--        WHERE-->
+<!--            director_name &lt; writer_name OR director_name &gt; writer_name-->
+<!--        GROUP BY-->
+<!--            director_name,-->
+<!--            writer_name-->
+<!--        ORDER BY-->
+<!--            cooptimes DESC-->
+<!--            LIMIT 20-->
+<!--    </select>-->
 
-    <select id="getHiveCoopDWTop" resultType="com.example.backend1.entity.hive.HiveCoopDW">
---         SELECT
---             search.director_name AS director,
---             search.writer_name AS writer,
---             count(search.movie_id1) cooptimes
---         FROM
---             (
---                 SELECT
---                     *
---                 FROM
---                     (
---                         SELECT
---                             movie_id AS movie_id1,
---                             writer_name
---                         FROM
---                             movie_writer
---                                 NATURAL JOIN writer
---                     ) AS D1
---                         JOIN (
---                         SELECT
---                             movie_id AS movie_id2,
---                             director_name
---                         FROM
---                             movie_director
---                                 NATURAL JOIN director
---                     ) AS D2 ON D1.movie_id1 = D2.movie_id2
---             ) AS search
---         WHERE
---             search.director_name &lt; search.writer_name OR search.director_name &gt; search.writer_name
---         GROUP BY
---             search.writer_name,
---             search.director_name
---         ORDER BY
---             cooptimes DESC
---             LIMIT 20
-SELECT
-    director_name AS director,
-    writer_name AS writer,
-    count(movie_id) cooptimes
-FROM
-    director
-        NATURAL JOIN writer
-WHERE
-    director_name &lt; writer_name OR director_name &gt; writer_name
-GROUP BY
-    director_name,
-    writer_name
-ORDER BY
-    cooptimes DESC
-    LIMIT 20
-    </select>
+<!--    <select id="getHiveMoviesByGenres" resultType="com.example.backend1.entity.hive.HiveMovieDetail">-->
+<!--        SELECT-->
+<!--            movie_id,-->
+<!--            title,-->
+<!--            runtime,-->
+<!--            releasedate-->
+<!--        FROM-->
+<!--            movie-->
+<!--                NATURAL JOIN genres-->
+<!--        WHERE-->
+<!--            genres_name = #{genres}-->
+<!--    </select>-->
 
-    <select id="getHiveMoviesByGenres" resultType="com.example.backend1.entity.hive.HiveMovieDetail">
---         SELECT
---             movie_id,
---             title,
---             runtime,
---             releasedate
---         FROM
---             movie
---                 NATURAL JOIN movie_genres
---                 NATURAL JOIN genres
---         WHERE
---             genres_name = #{genres}
+<!--    <select id="getHiveGenresRanking" resultType="com.example.backend1.entity.hive.HiveGenres">-->
+<!--        SELECT-->
+<!--            genres_name AS genres,-->
+<!--            count(movie_id) AS num-->
+<!--        FROM-->
+<!--            movie_orc-->
+<!--                NATURAL JOIN genres_orc-->
+<!--        GROUP BY-->
+<!--            genres_name-->
+<!--        ORDER BY-->
+<!--            num DESC-->
+<!--    </select>-->
 
-SELECT
-    movie_id,
-    title,
-    runtime,
-    releasedate
-FROM
-    movie
-        NATURAL JOIN genres
-WHERE
-    genres_name = #{genres}
-    </select>
+<!--    <select id="getHiveMoviesByScore" resultType="com.example.backend1.entity.hive.HiveMovieScore">-->
+<!--        SELECT-->
+<!--            movie_id,-->
+<!--            title,-->
+<!--            avgScore-->
+<!--        FROM-->
+<!--            (-->
+<!--                SELECT-->
+<!--                    movie_id,-->
+<!--                    AVG(score) AS avgScore-->
+<!--                FROM-->
+<!--                    review-->
+<!--                GROUP BY-->
+<!--                    movie_id-->
+<!--                HAVING-->
+<!--                    avgScore &gt; #{score}-->
+<!--            ) AS movieScore-->
+<!--                NATURAL JOIN movie-->
+<!--    </select>-->
 
-    <select id="getHiveGenresRanking" resultType="com.example.backend1.entity.hive.HiveGenres">
---         SELECT
---             genres_name AS genres,
---             num
---         FROM
---             (
---                 SELECT
---                     genres_id,
---                     count(movie_id) AS num
---                 FROM
---                     movie
---                         NATURAL JOIN movie_genres
---                 GROUP BY
---                     genres_id
---             ) AS result
---                 NATURAL JOIN genres
---         ORDER BY
---             num DESC
+<!--    <select id="getHiveMoviesByReviewNum" resultType="com.example.backend1.entity.hive.HiveMovieReview">-->
+<!--        SELECT-->
+<!--            movie_id,-->
+<!--            title,-->
+<!--            reviewNum-->
+<!--        FROM-->
+<!--            (-->
+<!--                SELECT-->
+<!--                    movie_id,-->
+<!--                    count(reviewer_id) AS reviewNum-->
+<!--                FROM-->
+<!--                    review_orc-->
+<!--                GROUP BY-->
+<!--                    movie_id-->
+<!--            ) AS movieScore-->
+<!--                NATURAL JOIN movie_orc-->
+<!--        ORDER BY reviewNum DESC-->
+<!--            LIMIT 20-->
+<!--    </select>-->
 
-SELECT
-    genres_name AS genres,
-    count(movie_id) AS num
-FROM
-    movie
-        NATURAL JOIN genres
-GROUP BY
-    genres_name
-ORDER BY
-    num DESC
-    </select>
+<!--    <select id="getHiveCoopADByActor" resultType="com.example.backend1.entity.hive.HiveCoopAD">-->
+<!--        SELECT-->
+<!--            actor_name AS actor,-->
+<!--            director_name AS director,-->
+<!--            count(director.movie_id) cooptimes-->
+<!--        FROM-->
+<!--            (-->
+<!--                SELECT-->
+<!--                    *-->
+<!--                FROM-->
+<!--                    actor-->
+<!--                WHERE-->
+<!--                    actor_name = #{actor}-->
+<!--            ) AS T-->
+<!--                NATURAL JOIN director-->
+<!--        GROUP BY-->
+<!--            director_name-->
+<!--        ORDER BY-->
+<!--            cooptimes DESC-->
+<!--    </select>-->
 
-    <select id="getHiveMoviesByScore" resultType="com.example.backend1.entity.hive.HiveMovieScore">
---         SELECT
---             movie_id,
---             title,
---             avgScore
---         FROM
---             (
---                 SELECT
---                     movie_id,
---                     AVG(score) AS avgScore
---                 FROM
---                     review
---                 GROUP BY
---                     movie_id
---                 HAVING
---                     avgScore &gt; #{score}
---             ) AS movieScore
---                 NATURAL JOIN movie
---         ORDER BY
---             avgScore DESC
+<!--    <select id="getHiveCoopAAByActor" resultType="com.example.backend1.entity.hive.HiveCoopAA">-->
+<!--        SELECT-->
+<!--            collect_set(T.actor_name)[0] AS actor1,-->
+<!--            collect_set(actor_orc.actor_name)[0] AS actor2,-->
+<!--            count(T.actor_name) cooptimes-->
+<!--        FROM-->
+<!--            (-->
+<!--                SELECT-->
+<!--                    *-->
+<!--                FROM-->
+<!--                    actor_orc-->
+<!--                WHERE-->
+<!--                    actor_name = #{actor}-->
+<!--            ) AS T-->
+<!--                JOIN actor_orc ON T.movie_id = actor_orc.movie_id-->
+<!--        WHERE-->
+<!--            actor_orc.actor_name &lt; T.actor_name OR actor_orc.actor_name &gt; T.actor_name-->
+<!--        GROUP BY-->
+<!--            actor_orc.actor_name-->
+<!--        ORDER BY-->
+<!--            cooptimes DESC-->
+<!--    </select>-->
 
-SELECT
-    movie_id,
-    title,
-    avgScore
-FROM
-    (
-        SELECT
-            movie_id,
-            AVG(score) AS avgScore
-        FROM
-            review
-        GROUP BY
-            movie_id
-        HAVING
-            avgScore &gt; #{score}
-    ) AS movieScore
-        NATURAL JOIN movie
-    </select>
-
-    <select id="getHiveMoviesByReviewNum" resultType="com.example.backend1.entity.hive.HiveMovieReview">
---         SELECT
---             movie_id,
---             title,
---             reviewNum
---         FROM
---             (
---                 SELECT
---                     movie_id,
---                     count(reviewer_id) AS reviewNum
---                 FROM
---                     review
---                 GROUP BY
---                     movie_id
---             ) AS movieScore
---                 NATURAL JOIN movie
---         ORDER BY reviewNum DESC
---             LIMIT 20
-SELECT
-    movie_id,
-    title,
-    reviewNum
-FROM
-    (
-        SELECT
-            movie_id,
-            count(reviewer_id) AS reviewNum
-        FROM
-            review
-        GROUP BY
-            movie_id
-    ) AS movieScore
-        NATURAL JOIN movie
-ORDER BY reviewNum DESC
-    LIMIT 20
-    </select>
-
-    <select id="getHiveCoopADByActor" resultType="com.example.backend1.entity.hive.HiveCoopAD">
---         SELECT
---             actor_name AS actor,
---             director_name AS director,
---             cooptimes
---         FROM
---             (
---                 SELECT
---                     actor_name,
---                     director_id,
---                     count(actor_name) AS cooptimes
---                 FROM
---                     (
---                         SELECT
---                             actor_id,
---                             actor_name
---                         FROM
---                             actor
---                         WHERE
---                             actor_name = #{actor}
---                     ) AS ACTORTEMP
---                         NATURAL JOIN movie_actor
---                         NATURAL JOIN movie_director
---                 GROUP BY
---                     director_id
---             ) AS COOPTEMP
---                 NATURAL JOIN director
-SELECT
-    actor_name AS actor,
-    director_name AS director,
-    count(director.movie_id) cooptimes
-FROM
-    (
-        SELECT
-            *
-        FROM
-            actor
-        WHERE
-            actor_name = #{actor}
-    ) AS T
-        NATURAL JOIN director
-GROUP BY
-    director_name
-ORDER BY
-    cooptimes DESC
-    </select>
-
-    <select id="getHiveCoopAAByActor" resultType="com.example.backend1.entity.hive.HiveCoopAA">
---         SELECT
---             COOPTEMP.actor_name AS actor1,
---             actor.actor_name AS actor2,
---             cooptimes
---         FROM
---             (
---                 SELECT
---                     actor_name,
---                     movie_actor.actor_id,
---                     count(actor_name) AS cooptimes
---                 FROM
---                     (
---                         SELECT
---                             actor_id,
---                             actor_name,
---                             movie_id
---                         FROM
---                             (
---                                 SELECT
---                                     actor_id,
---                                     actor_name
---                                 FROM
---                                     actor
---                                 WHERE
---                                     actor_name = #{actor}
---                             ) AS ACTORTEMP
---                                 NATURAL JOIN movie_actor
---                     ) AS ACTOR
---                         JOIN movie_actor ON ACTOR.movie_id = movie_actor.movie_id
---                 WHERE
---                     ACTOR.actor_id &lt; movie_actor.actor_id OR ACTOR.actor_id &gt; movie_actor.actor_id
---                 GROUP BY
---                     movie_actor.actor_id
---             ) AS COOPTEMP
---                 JOIN actor ON COOPTEMP.actor_id = actor.actor_id
---         ORDER BY cooptimes DESC
-
-SELECT
-    T.actor_name AS actor1,
-    actor.actor_name AS actor2,
-    count(T.actor_name) cooptimes
-FROM
-    (
-        SELECT
-            *
-        FROM
-            actor
-        WHERE
-            actor_name = #{actor}
-    ) AS T
-        JOIN actor ON T.movie_id = actor.movie_id
-WHERE
-    actor.actor_name &lt; T.actor_name OR actor.actor_name &gt; T.actor_name
-GROUP BY
-    actor.actor_name
-ORDER BY
-    cooptimes DESC
-    </select>
-
-    <select id="getHiveMoviesByCombination"  resultType="com.example.backend1.entity.hive.HiveMovieDetail">
+<!--    <select id="getHiveMoviesByCombination"  resultType="com.example.backend1.entity.hive.HiveMovieDetail">-->
 <!--        SELECT-->
 <!--        movie_id,-->
 <!--        title,-->
@@ -639,8 +325,6 @@ ORDER BY
 <!--                movie_id-->
 <!--                FROM-->
 <!--                movie_actor-->
-<!--                NATURAL JOIN movie-->
-<!--                NATURAL JOIN actor-->
 <!--                WHERE-->
 <!--                actor_name = #{actor}-->
 <!--                )-->
@@ -650,9 +334,7 @@ ORDER BY
 <!--                SELECT-->
 <!--                movie_id-->
 <!--                FROM-->
-<!--                movie-->
-<!--                NATURAL JOIN movie_genres-->
-<!--                NATURAL JOIN genres-->
+<!--                genres-->
 <!--                WHERE-->
 <!--                genres_name = #{genres}-->
 <!--                )-->
@@ -662,9 +344,7 @@ ORDER BY
 <!--                SELECT-->
 <!--                movie_id-->
 <!--                FROM-->
-<!--                movie-->
-<!--                NATURAL JOIN movie_director-->
-<!--                NATURAL JOIN director-->
+<!--                movie_director-->
 <!--                WHERE-->
 <!--                director_name = #{director}-->
 <!--                )-->
@@ -683,166 +363,96 @@ ORDER BY
 <!--                GROUP BY-->
 <!--                movie_id-->
 <!--                HAVING-->
-<!--                avgScore &gt; #{score}-->
+<!--                avgScore &gt; #{score} OR avgScore = #{score}-->
 <!--                ) AS movieScore-->
 <!--                NATURAL JOIN movie-->
 <!--                )-->
 <!--            </if>-->
 <!--        </where>-->
+<!--    </select>-->
 
-        SELECT
-        movie_id,
-        title,
-        runtime,
-        releasedate
-        FROM
-        movie
-        <where>
-            <if test="year != null">
-                YEAR (releasedate) = #{year}
-            </if>
-            <if test="month != null">
-                AND MONTH (releasedate) = #{month}
-            </if>
-            <if test="quarter != null">
-                AND QUARTER (releasedate) = #{quarter}
-            </if>
-            <if test="title != null">
-                AND title like CONCAT('%',#{title},'%')
-            </if>
-            <if test="actor != null">
-                AND movie_id in (
-                SELECT
-                movie_id
-                FROM
-                movie_actor
-                WHERE
-                actor_name = #{actor}
-                )
-            </if>
-            <if test="genres != null">
-                AND movie_id in (
-                SELECT
-                movie_id
-                FROM
-                genres
-                WHERE
-                genres_name = #{genres}
-                )
-            </if>
-            <if test="director != null">
-                AND movie_id in (
-                SELECT
-                movie_id
-                FROM
-                movie_director
-                WHERE
-                director_name = #{director}
-                )
-            </if>
-            <if test="score != null">
-                AND movie_id in (
-                SELECT
-                movie_id
-                FROM
-                (
-                SELECT
-                movie_id,
-                AVG(score) AS avgScore
-                FROM
-                review
-                GROUP BY
-                movie_id
-                HAVING
-                avgScore &gt; #{score} OR avgScore = #{score}
-                ) AS movieScore
-                NATURAL JOIN movie
-                )
-            </if>
-        </where>
-    </select>
 
-    <select id="getHiveReviewsByMovie" resultType="com.example.backend1.entity.hive.HiveReview">
-        SELECT
-            reviewer_id AS reviewerID,
-            reviewer_name AS reviewerName,
-            review_time AS reviewTime,
-            score,
-            text,
-            summary
-        FROM
-            review
-        WHERE
-                movie_id IN (
-                SELECT
-                    movie_id
-                FROM
-                    movie
-                WHERE
-                    title = #{title}
-            )
-    </select>
+<!--    <select id="getHiveReviewsByMovie" resultType="com.example.backend1.entity.hive.HiveReview">-->
+<!--        SELECT-->
+<!--            reviewer_id AS reviewerID,-->
+<!--            reviewer_name AS reviewerName,-->
+<!--            review_time AS reviewTime,-->
+<!--            score,-->
+<!--            text,-->
+<!--            summary-->
+<!--        FROM-->
+<!--            review_orc-->
+<!--        WHERE-->
+<!--                movie_id IN (-->
+<!--                SELECT-->
+<!--                    movie_id-->
+<!--                FROM-->
+<!--                    movie-->
+<!--                WHERE-->
+<!--                    title = #{title}-->
+<!--            )-->
+<!--   man </select>-->
 
-    <select id="getHiveMoviesWithoutNegReview" resultType="com.example.backend1.entity.hive.HiveMovieDetail">
-        SELECT
-            movie_id,
-            title,
-            runtime,
-            releasedate
-        FROM
-            movie
-        WHERE
-                movie_id NOT IN (
-                SELECT
-                    movie_id
-                FROM
-                    review
-                WHERE
-                    helpness = "neg"
-                GROUP BY
-                    movie_id
-            )
-    </select>
+<!--    <select id="getHiveMoviesWithoutNegReview" resultType="com.example.backend1.entity.hive.HiveMovieDetail">-->
+<!--        SELECT-->
+<!--            movie_id,-->
+<!--            title,-->
+<!--            runtime,-->
+<!--            releasedate-->
+<!--        FROM-->
+<!--            movie_orc-->
+<!--        WHERE-->
+<!--                movie_id NOT IN (-->
+<!--                SELECT-->
+<!--                    movie_id-->
+<!--                FROM-->
+<!--                    review_orc-->
+<!--                WHERE-->
+<!--                    helpness = "neg"-->
+<!--                GROUP BY-->
+<!--                    movie_id-->
+<!--            )-->
+<!--  man  </select>-->
 
-    <select id="getHiveCoopAWByActor" resultType="com.example.backend1.entity.hive.HiveCoopAW">
-        SELECT
-            actor_name AS actor,
-            writer_name AS writer,
-            count(writer.movie_id) cooptimes
-        FROM
-            (
-                SELECT
-                    *
-                FROM
-                    actor
-                WHERE
-                    actor_name = #{actor}
-            ) AS T
-                NATURAL JOIN writer
-        GROUP BY
-            writer_name
-        ORDER BY
-            cooptimes DESC
-    </select>
+<!--    <select id="getHiveCoopAWByActor" resultType="com.example.backend1.entity.hive.HiveCoopAW">-->
+<!--        SELECT-->
+<!--            actor_name AS actor,-->
+<!--            writer_name AS writer,-->
+<!--            count(writer.movie_id) cooptimes-->
+<!--        FROM-->
+<!--            (-->
+<!--                SELECT-->
+<!--                    *-->
+<!--                FROM-->
+<!--                    actor-->
+<!--                WHERE-->
+<!--                    actor_name = #{actor}-->
+<!--            ) AS T-->
+<!--                NATURAL JOIN writer-->
+<!--        GROUP BY-->
+<!--            writer_name-->
+<!--        ORDER BY-->
+<!--            cooptimes DESC-->
+<!--    </select>-->
 
-    <select id="getHiveCoopDWByDirector" resultType="com.example.backend1.entity.hive.HiveCoopDW">
-        SELECT
-            director_name AS director,
-            writer_name AS writer,
-            count(writer.movie_id) cooptimes
-        FROM
-            (
-                SELECT
-                    *
-                FROM
-                    director
-                WHERE
-                    director_name = #{director}
-            ) AS T
-                NATURAL JOIN writer
-        GROUP BY
-            writer_name
-        ORDER BY
-            cooptimes DESC
-    </select>
+<!--    <select id="getHiveCoopDWByDirector" resultType="com.example.backend1.entity.hive.HiveCoopDW">-->
+<!--        SELECT-->
+<!--            director_name AS director,-->
+<!--            writer_name AS writer,-->
+<!--            count(writer.movie_id) cooptimes-->
+<!--        FROM-->
+<!--            (-->
+<!--                SELECT-->
+<!--                    *-->
+<!--                FROM-->
+<!--                    director-->
+<!--                WHERE-->
+<!--                    director_name = #{director}-->
+<!--            ) AS T-->
+<!--                NATURAL JOIN writer-->
+<!--        GROUP BY-->
+<!--            writer_name-->
+<!--        ORDER BY-->
+<!--            cooptimes DESC-->
+<!--    </select>-->
 </mapper>

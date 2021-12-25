@@ -32,34 +32,34 @@ public interface HiveMapper {
 
     List<HiveCoopAA> getHiveCoopAATop();
 
-    List<HiveCoopAD> getHiveCoopADTop();
-
-    List<HiveCoopAW> getHiveCoopAWTop();
-
-    List<HiveCoopDW> getHiveCoopDWTop();
-
-    List<HiveCoopAD> getHiveCoopADByActor(String actor);
-
-    List<HiveCoopAA> getHiveCoopAAByActor(String actor);
-
-    List<HiveMovieDetail> getHiveMoviesByGenres(String genres);
-
-    List<HiveGenres> getHiveGenresRanking();
-
-    List<HiveMovieScore> getHiveMoviesByScore(Integer score);
-
-    List<HiveMovieReview> getHiveMoviesByReviewNum();
-
-    List<HiveMovieDetail> getHiveMoviesByCombination(
-            Integer year , Integer month , Integer quarter,
-            String title , String actor, String director ,
-            String genres, Integer score);
-
-    List<HiveReview> getHiveReviewsByMovie(String title);
-
-    List<HiveMovieDetail> getHiveMoviesWithoutNegReview();
-
-    List<HiveCoopAW> getHiveCoopAWByActor(String actor);
-
-    List<HiveCoopDW> getHiveCoopDWByDirector(String director);
+//    List<HiveCoopAD> getHiveCoopADTop();
+//
+//    List<HiveCoopAW> getHiveCoopAWTop();
+//
+//    List<HiveCoopDW> getHiveCoopDWTop();
+//
+//    List<HiveCoopAD> getHiveCoopADByActor(String actor);
+//
+//    List<HiveCoopAA> getHiveCoopAAByActor(String actor);
+//
+//    List<HiveMovieDetail> getHiveMoviesByGenres(String genres);
+//
+//    List<HiveGenres> getHiveGenresRanking();
+//
+//    List<HiveMovieScore> getHiveMoviesByScore(Integer score);
+//
+//    List<HiveMovieReview> getHiveMoviesByReviewNum();
+//
+//    List<HiveMovieDetail> getHiveMoviesByCombination(
+//            Integer year , Integer month , Integer quarter,
+//            String title , String actor, String director ,
+//            String genres, Integer score);
+//
+//    List<HiveReview> getHiveReviewsByMovie(String title);
+//
+//    List<HiveMovieDetail> getHiveMoviesWithoutNegReview();
+//
+//    List<HiveCoopAW> getHiveCoopAWByActor(String actor);
+//
+//    List<HiveCoopDW> getHiveCoopDWByDirector(String director);
 }
