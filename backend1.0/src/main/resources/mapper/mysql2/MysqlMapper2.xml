@@ -100,29 +100,19 @@
 
     <select id="getCoopAATop" resultType="com.example.backend1.entity.mysql.CoopAA">
         SELECT
-        actor.actor_name AS actor1,
-        temp.actor_name AS actor2,
-        cooptimes
-        FROM
-        (
-        SELECT
-        M1.actor_id AS actor_id1,
-        M2.actor_id AS actor_id2,
+        M1.actor_name AS actor1,
+        M2.actor_name AS actor2,
         count(M1.movie_id) cooptimes
         FROM
         actor AS M1
         JOIN actor M2 ON M1.movie_id = M2.movie_id
         WHERE
-        M2.actor_id &lt; M1.actor_id
+            M2.actor_id &lt; M1.actor_id
         GROUP BY
         M1.actor_id,
         M2.actor_id
         ORDER BY
         cooptimes DESC
-        LIMIT 20
-        ) AS result
-        LEFT JOIN actor ON actor.actor_id = result.actor_id1
-        LEFT JOIN actor AS temp ON temp.actor_id = result.actor_id2
         LIMIT 20
     </select>
     <select id="getCoopADTop" resultType="com.example.backend1.entity.mysql.CoopAD">
@@ -432,6 +422,21 @@
                 GROUP BY
                     movie_id
             )
+    </select>
+
+    <select id="getVersionByMovie" resultType="com.example.backend1.entity.mysql.MovieVersion">
+        SELECT
+            movie_id,
+            title,
+            runtime,
+            releasedate,
+            group_concat(product_asin) AS asin
+        FROM
+            movie
+                NATURAL JOIN product
+        WHERE
+            title = #{title}
+        GROUP BY movie_id
     </select>
 
 </mapper>
